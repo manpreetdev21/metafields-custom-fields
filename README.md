@@ -2,7 +2,7 @@
 
 Field groups, meta boxes and a developer-friendly field API for WordPress.
 
-- **Version:** 1.4.0
+- **Version:** 1.6.0
 - **Author:** Manpreet Singh
 - **Requires PHP:** 8.1
 - **Requires WordPress:** 6.8
@@ -736,6 +736,51 @@ Both run on the server. The browser copy exists for fast feedback, not to decide
 - **`0` is an answer, not emptiness.** `empty()` is the wrong test and is not used for values.
 - **`>` and `<` are numeric.** PHP's string comparison would make "greater than 10" true for `"9"`.
 - **A malformed validation pattern is reported, not silently passed.** Silently passing is the failure mode that makes a broken rule look like it works.
+
+### Nothing publishes past a required field
+
+A required field stops a post or page reaching a public status, whichever
+button does it:
+
+| Route | What happens |
+|---|---|
+| Publish / Update in either editor | The button is held while a field is invalid, and the server refuses the transition if the browser is bypassed |
+| Quick Edit from the list | Refused; the row stays as it was |
+| Bulk Edit from the list | Refused, per post |
+| `wp_update_post()` in code | Goes through — code is assumed to mean it |
+
+The two editor routes send the plugin's values with them, so the submission
+itself is judged. **Quick Edit and Bulk Edit send none of them** — they publish
+from the list without opening the post — so there what is already stored is
+judged instead, which is both safe and sufficient: no values are arriving
+later in those requests. That is exactly why the same reading would be wrong
+for the block editor's own save, where the values are a moment behind in the
+meta box request.
+
+Neither list route has a screen of its own to explain a refusal, so a count is
+left behind and reported on the list: *2 items were not published: open them
+and fill in their required fields first.* Without it the row simply goes back
+to being a draft and reads as a button that did nothing.
+
+**An already-public post is still never unpublished.** An edit that leaves a
+required field empty reports the problem and keeps the post live; taking a
+page off the site over a validation error is worse than the error. The gate in
+the editor is what stops the Update before it happens.
+
+### Options page validation
+
+Options pages have their own save path, so every rule is checked against it
+separately — required, type, length, range, pattern, and required sub fields
+inside a repeater, which report the row they are in.
+
+Errors belong to the save that produced them and to the screen that save
+redirects to. They used to be left in place for five minutes, so the next
+person to open the page met a screenful of red errors about values they had
+never touched, with no notice to explain them. They are now read once and
+consumed, and which notice appears is decided by the flag the redirect set
+rather than by whatever is left in the transient — otherwise refreshing a
+failed save congratulated you on it.
+
 
 ### Required fields actually stop a save
 

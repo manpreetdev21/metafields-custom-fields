@@ -415,6 +415,58 @@ wpcmb_group(
 		wpcmb_is( 'draft' === $publish( array() ), 'publishing with nothing submitted is refused' );
 		wpcmb_is( 'draft' === $publish( array( 'itest_needed' => '' ) ), 'publishing with the field empty is refused' );
 
+		/*
+		 * Quick Edit and Bulk Edit publish from the list without opening the
+		 * post, so they carry none of the plugin's fields and the browser
+		 * gate is not there at all. They used to sail straight past the
+		 * guard: the whole point of a required field is that this cannot
+		 * happen, whichever button does it.
+		 */
+		$list_publish = static function ( array $request ) use ( $page ): string {
+			wp_update_post( array( 'ID' => $page, 'post_status' => 'draft' ) );
+			delete_post_meta( $page, 'itest_needed' );
+
+			$_POST    = $request;
+			$_REQUEST = $request;
+
+			// No `original_post_status`: neither route sends one, so the guard
+			// has to read the status off the row it is about to overwrite.
+			wp_update_post( array( 'ID' => $page, 'post_status' => 'publish' ) );
+
+			$status = (string) get_post( $page )->post_status;
+
+			$_POST    = array();
+			$_REQUEST = array();
+
+			return $status;
+		};
+
+		wpcmb_is(
+			'draft' === $list_publish( array( 'action' => 'inline-save', 'post_status' => 'publish' ) ),
+			'Quick Edit cannot publish past a required field'
+		);
+
+		wpcmb_is(
+			'draft' === $list_publish( array( 'action' => 'edit', 'bulk_edit' => 'Update', '_status' => 'publish' ) ),
+			'and neither can Bulk Edit'
+		);
+
+		// With the field filled in, both routes go through.
+		wp_update_post( array( 'ID' => $page, 'post_status' => 'draft' ) );
+		update_post_meta( $page, 'itest_needed', 'filled in' );
+
+		$_POST    = array( 'action' => 'inline-save', 'post_status' => 'publish' );
+		$_REQUEST = $_POST;
+
+		wp_update_post( array( 'ID' => $page, 'post_status' => 'publish' ) );
+
+		wpcmb_is( 'publish' === get_post( $page )->post_status, 'Quick Edit publishes once it is filled in' );
+
+		$_POST    = array();
+		$_REQUEST = array();
+
+		delete_post_meta( $page, 'itest_needed' );
+
 		// The refusal has to explain itself, or it reads as a broken button.
 		$errors = get_transient( 'wpcmb_errors_' . get_current_user_id() . '_post_' . $page );
 
@@ -718,6 +770,165 @@ wpcmb_group(
 		if ( 0 !== $menu_id ) {
 			wp_delete_nav_menu( $menu_id );
 		}
+	}
+);
+
+/* -------------------------------------------------------------------------
+ * Validation on an options page.
+ *
+ * An options page is the one screen where the fields are not on a post, so it
+ * has its own save path — and a validation rule that works on a post proves
+ * nothing about it. Every kind of rule is submitted here, and the errors are
+ * followed through the redirect that carries them.
+ * ---------------------------------------------------------------------- */
+
+wpcmb_group(
+	'options page fields are validated, and their errors are shown once',
+	static function (): void {
+		$slug = 'itest-opt-validation';
+
+		wpcmb_group_fixture(
+			array(
+				'title'    => 'Integration Options Validation',
+				'fields'   => array(
+					array( 'name' => 'iov_required', 'label' => 'Required', 'type' => 'text', 'required' => true ),
+					array( 'name' => 'iov_email', 'label' => 'Email', 'type' => 'email' ),
+					array( 'name' => 'iov_number', 'label' => 'Number', 'type' => 'number', 'settings' => array( 'min' => '5', 'max' => '10' ) ),
+					array(
+						'name'       => 'iov_rows',
+						'label'      => 'Rows',
+						'type'       => 'repeater',
+						'sub_fields' => array(
+							array( 'name' => 'iov_row_text', 'label' => 'Row text', 'type' => 'text', 'required' => true ),
+						),
+					),
+				),
+				'location' => array( array( array( 'param' => 'options_page', 'operator' => '==', 'value' => $slug ) ) ),
+			)
+		);
+
+		require_once ABSPATH . 'wp-admin/includes/screen.php';
+		require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		require_once ABSPATH . 'wp-admin/includes/template.php';
+
+		$module = wpcmb()->container()->get( WPCMB\Admin\OptionsPages::class );
+
+		$module->register();
+
+		$hook = 'toplevel_page_wpcmb-options-' . $slug;
+		$key  = 'wpcmb_options_result_' . get_current_user_id() . '_' . $slug;
+
+		// The handler ends in a redirect and an exit. Turning the redirect into
+		// an exception stops the request exactly where the browser would be
+		// sent away, with everything it wrote still there to look at.
+		$stop = static function ( $location ) {
+			throw new RuntimeException( (string) $location );
+		};
+
+		add_filter( 'wp_redirect', $stop );
+
+		/**
+		 * Submit the page, and report where it redirected.
+		 *
+		 * @param array<string, mixed> $values Field values.
+		 */
+		$submit = static function ( array $values ) use ( $hook, $key ): string {
+			delete_transient( $key );
+
+			$_POST = array(
+				'wpcmb_options_nonce' => wp_create_nonce( 'wpcmb_save_options' ),
+				'wpcmb_values'        => $values,
+			);
+
+			$_REQUEST = $_POST;
+			$landed   = '';
+
+			try {
+				do_action( 'load-' . $hook );
+			} catch ( RuntimeException $stopped ) {
+				$landed = $stopped->getMessage();
+			}
+
+			$_POST    = array();
+			$_REQUEST = array();
+
+			return $landed;
+		};
+
+		$errors_of = static function () use ( $key ): array {
+			$errors = get_transient( $key );
+
+			return is_array( $errors ) ? $errors : array();
+		};
+
+		// Every rule, on the screen that has its own save path.
+		$submit( array( 'iov_required' => '', 'iov_rows' => array( array( 'iov_row_text' => 'ok' ) ) ) );
+		wpcmb_is( isset( $errors_of()['iov_required'] ), 'a required field is caught' );
+
+		$submit( array( 'iov_required' => 'set', 'iov_email' => 'not-an-email', 'iov_rows' => array( array( 'iov_row_text' => 'ok' ) ) ) );
+		wpcmb_is( isset( $errors_of()['iov_email'] ), 'a malformed email is caught' );
+
+		$submit( array( 'iov_required' => 'set', 'iov_number' => '99', 'iov_rows' => array( array( 'iov_row_text' => 'ok' ) ) ) );
+		wpcmb_is( isset( $errors_of()['iov_number'] ), 'a number out of range is caught' );
+
+		$submit( array( 'iov_required' => 'set', 'iov_rows' => array( array( 'iov_row_text' => '' ) ) ) );
+		$row_error = $errors_of()['iov_rows'] ?? '';
+		wpcmb_is( '' !== $row_error, 'a required sub field is caught' );
+		wpcmb_is( str_contains( $row_error, 'Row 1' ), 'and the message names the row' );
+
+		$landed = $submit( array( 'iov_required' => 'set', 'iov_rows' => array( array( 'iov_row_text' => 'ok' ) ) ) );
+		wpcmb_is( array() === $errors_of(), 'a valid save reports nothing' );
+		wpcmb_is( str_contains( $landed, 'wpcmb-saved=1' ), 'and says so in the redirect' );
+		wpcmb_is( 'set' === get_option( 'wpcmb_' . $slug . '_iov_required' ), 'the value is stored' );
+
+		// The errors belong to the screen the save redirects to. Left in place
+		// they went on marking fields red for five minutes, so the next person
+		// to open the page met errors about values they had never touched.
+		$submit( array( 'iov_required' => '' ) );
+
+		wpcmb_is( array() !== $errors_of(), 'a failed save leaves its errors for the next screen' );
+
+		$render = static function () use ( $hook ): string {
+			ob_start();
+			do_action( $hook );
+
+			return (string) ob_get_clean();
+		};
+
+		$_GET['wpcmb-saved'] = '0';
+
+		$landing = $render();
+
+		wpcmb_is( str_contains( $landing, 'Required is required.' ), 'the landing screen shows them' );
+		wpcmb_is( array() === $errors_of(), 'and consumes them' );
+
+		unset( $_GET['wpcmb-saved'] );
+
+		/*
+		 * A later visit is a later request, and in one process the module above
+		 * is still holding this request's result — so its render callback is
+		 * taken off the hook and a fresh module put on in its place. Without
+		 * that, the test would measure the harness rather than the page.
+		 */
+		remove_all_actions( $hook );
+
+		$later = new WPCMB\Admin\OptionsPages( wpcmb()->container() );
+
+		$later->register();
+
+		ob_start();
+		do_action( $hook );
+		$next = (string) ob_get_clean();
+
+		wpcmb_is( ! str_contains( $next, 'Required is required.' ), 'a later visit shows no stale errors' );
+
+		remove_filter( 'wp_redirect', $stop );
+
+		foreach ( array( 'iov_required', 'iov_email', 'iov_number', 'iov_rows' ) as $name ) {
+			delete_option( 'wpcmb_' . $slug . '_' . $name );
+		}
+
+		delete_transient( $key );
 	}
 );
 

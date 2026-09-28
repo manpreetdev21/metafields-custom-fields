@@ -54,6 +54,17 @@ final class OptionsPages extends Module {
 	private const SLUG_PREFIX = 'wpcmb-options-';
 
 	/**
+	 * The last save's errors, read once per request.
+	 *
+	 * The notice and the fields both want them, and reading the transient
+	 * twice would mean deleting it twice — so it is read once, deleted
+	 * immediately, and kept here for whoever asks next.
+	 *
+	 * @var array<string, string>|null
+	 */
+	private ?array $result = null;
+
+	/**
 	 * Only load in the admin.
 	 */
 	public function is_enabled(): bool {
@@ -391,7 +402,24 @@ final class OptionsPages extends Module {
 	 */
 	private function render_notice( string $slug ): void {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only result flag; the save itself verified its nonce.
-		if ( ! isset( $_GET['wpcmb-saved'] ) ) {
+		$saved = isset( $_GET['wpcmb-saved'] ) ? sanitize_key( wp_unslash( $_GET['wpcmb-saved'] ) ) : '';
+
+		if ( '' === $saved ) {
+			return;
+		}
+
+		/*
+		 * Which it was is decided by the flag the save set, not by whether
+		 * any errors are still to hand: they are consumed when they are
+		 * shown, and a refresh of a failed save must not then congratulate
+		 * anybody on a save that did not go through cleanly.
+		 */
+		if ( '1' === $saved ) {
+			printf(
+				'<div class="notice notice-success is-dismissible"><p>%s</p></div>',
+				esc_html__( 'Options saved.', 'wp-custom-meta-box' )
+			);
+
 			return;
 		}
 
@@ -399,8 +427,8 @@ final class OptionsPages extends Module {
 
 		if ( array() === $errors ) {
 			printf(
-				'<div class="notice notice-success is-dismissible"><p>%s</p></div>',
-				esc_html__( 'Options saved.', 'wp-custom-meta-box' )
+				'<div class="notice notice-warning is-dismissible"><p>%s</p></div>',
+				esc_html__( 'Your options were saved, but some fields needed attention.', 'wp-custom-meta-box' )
 			);
 
 			return;
@@ -419,20 +447,30 @@ final class OptionsPages extends Module {
 	}
 
 	/**
-	 * The errors from the last save, read once.
+	 * The errors from the last save, read once and then gone.
 	 *
-	 * Read by both the notice and the renderer, so it is not consumed here:
-	 * it expires on its own, and a page reloaded twice showing the same
-	 * message is better than one showing it in only half the places.
+	 * They belong to the save that produced them and to the screen that
+	 * save redirected to. Left in place they went on marking the fields
+	 * red for five minutes, so anybody opening the page afterwards met a
+	 * screenful of errors about values they had not touched, with no
+	 * notice to explain them.
 	 *
 	 * @param string $slug Options page slug.
 	 *
 	 * @return array<string, string>
 	 */
 	private function take_errors( string $slug ): array {
+		if ( null !== $this->result ) {
+			return $this->result;
+		}
+
 		$errors = get_transient( $this->result_key( $slug ) );
 
-		return is_array( $errors ) ? $errors : array();
+		delete_transient( $this->result_key( $slug ) );
+
+		$this->result = is_array( $errors ) ? $errors : array();
+
+		return $this->result;
 	}
 
 	/**

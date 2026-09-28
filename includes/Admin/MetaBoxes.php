@@ -454,18 +454,33 @@ final class MetaBoxes extends Module {
 	public function guard_publish( $data, $postarr = array() ): array {
 		$data = is_array( $data ) ? $data : array();
 
-		if ( ! is_array( $postarr ) || ! $this->is_field_submission() ) {
+		if ( ! is_array( $postarr ) ) {
 			return $data;
 		}
 
 		$id = (int) ( $postarr['ID'] ?? 0 );
 
-		if ( 0 === $id || ! $this->becomes_public( $data, $postarr ) ) {
+		if ( 0 === $id || ! $this->becomes_public( $data, $postarr, $id ) ) {
 			return $data;
 		}
 
-		$ref    = new ObjectRef( ObjectRef::POST, $id );
-		$errors = $this->submitted_errors( $ref );
+		$ref = new ObjectRef( ObjectRef::POST, $id );
+
+		/*
+		 * An editor screen sends the values with it, so the submission is
+		 * what gets judged. Quick Edit and Bulk Edit send none of them —
+		 * they publish straight from the list — so there what is stored is
+		 * all there is to go on, and it is enough: no values are arriving
+		 * later in those requests, which is what makes reading storage safe
+		 * here and wrong for the block editor's own save.
+		 */
+		if ( $this->is_field_submission() ) {
+			$errors = $this->submitted_errors( $ref );
+		} elseif ( $this->is_list_edit() ) {
+			$errors = $this->stored_errors( $ref );
+		} else {
+			return $data;
+		}
 
 		if ( array() === $errors ) {
 			return $data;
@@ -482,6 +497,16 @@ final class MetaBoxes extends Module {
 		// carried no values at all produces no errors there, and a refusal
 		// nobody explains is worse than the publish it prevented.
 		$this->guarded = true;
+
+		// A refusal from a list table has no post screen to report itself on,
+		// so it leaves a count behind for the list to pick up. Without it the
+		// row simply stays a draft and reads as a button that did nothing.
+		if ( ! $this->is_field_submission() ) {
+			$key   = self::BLOCKED_PREFIX . 'list_' . get_current_user_id();
+			$count = (int) get_transient( $key );
+
+			set_transient( $key, $count + 1, MINUTE_IN_SECONDS * 5 );
+		}
 
 		$this->store_errors( $ref, $errors );
 
@@ -514,8 +539,9 @@ final class MetaBoxes extends Module {
 	 *
 	 * @param array<string, mixed> $data    Post data about to be written.
 	 * @param array<string, mixed> $postarr Raw post array.
+	 * @param int                  $id      Post being saved.
 	 */
-	private function becomes_public( array $data, array $postarr ): bool {
+	private function becomes_public( array $data, array $postarr, int $id ): bool {
 		$public = array( 'publish', 'future', 'private' );
 		$next   = (string) ( $data['post_status'] ?? '' );
 
@@ -523,16 +549,72 @@ final class MetaBoxes extends Module {
 			return false;
 		}
 
+		/*
+		 * The status the request says it is coming from, when it says. An
+		 * editor form carries it, and it has to win: after the block editor
+		 * publishes over REST the row already reads `publish`, and its meta
+		 * box post arriving a moment later would otherwise look like no
+		 * change at all — which is the case the demote exists for.
+		 *
+		 * Quick Edit and Bulk Edit carry nothing, so the row itself is asked.
+		 * This runs before the write, so the row still holds the status the
+		 * post is leaving.
+		 */
 		$previous = (string) ( $postarr['original_post_status'] ?? '' );
 
-		// No original status in the request means this is not a status change
-		// the user asked for — the block editor's meta box post is the case
-		// that matters, and it carries the status it already has.
+		if ( '' === $previous ) {
+			$status   = get_post_status( $id );
+			$previous = is_string( $status ) ? $status : '';
+		}
+
 		if ( '' === $previous ) {
 			return false;
 		}
 
 		return ! in_array( $previous, $public, true );
+	}
+
+	/**
+	 * Whether this request publishes from a list table.
+	 *
+	 * Quick Edit and Bulk Edit are the two ways a person changes a status
+	 * without opening the post, and neither sends a field with it. Narrowed
+	 * to those two on purpose: every other route that carries no values is
+	 * either the block editor's own save, whose values are moments behind,
+	 * or code, whose author can be assumed to mean it.
+	 */
+	private function is_list_edit(): bool {
+		// phpcs:disable WordPress.Security.NonceVerification -- Reading which route this is; core verified the nonce for both of them.
+		$action = isset( $_POST['action'] ) ? sanitize_key( wp_unslash( $_POST['action'] ) ) : '';
+		$bulk   = isset( $_POST['bulk_edit'] );
+		// phpcs:enable WordPress.Security.NonceVerification
+
+		return 'inline-save' === $action || $bulk;
+	}
+
+	/**
+	 * Validate what is already stored against the fields that apply.
+	 *
+	 * @param ObjectRef $ref Object being published.
+	 *
+	 * @return array<string, string>
+	 */
+	private function stored_errors( ObjectRef $ref ): array {
+		$renderer = $this->container->get( Renderer::class );
+		$values   = $this->container->get( Values::class );
+		$fields   = array();
+		$stored   = array();
+
+		foreach ( $this->container->get( Resolver::class )->fields( new Context( $ref ) ) as $name => $field ) {
+			if ( ! $renderer->stores_value( $field ) ) {
+				continue;
+			}
+
+			$fields[ $name ] = $field;
+			$stored[ $name ] = $values->get( $name, $ref, false );
+		}
+
+		return $this->container->get( Validator::class )->validate( $fields, $stored );
 	}
 
 	/**
@@ -570,6 +652,42 @@ final class MetaBoxes extends Module {
 	}
 
 	/**
+	 * Report anything a list table refused to publish.
+	 *
+	 * Quick Edit and Bulk Edit change a status without opening the post, so
+	 * a refusal there has nowhere of its own to be explained: the row goes
+	 * back to being a draft and nothing says why. This is the line that
+	 * says why, and it is a count rather than a list because the two routes
+	 * can refuse several posts at once for several different reasons.
+	 */
+	private function render_list_notice(): void {
+		$key   = self::BLOCKED_PREFIX . 'list_' . get_current_user_id();
+		$count = (int) get_transient( $key );
+
+		if ( 0 === $count ) {
+			return;
+		}
+
+		delete_transient( $key );
+
+		printf(
+			'<div class="notice notice-error is-dismissible"><p>%s</p></div>',
+			esc_html(
+				sprintf(
+					/* translators: %d: number of items that stayed unpublished. */
+					_n(
+						'%d item was not published: open it and fill in its required fields first.',
+						'%d items were not published: open them and fill in their required fields first.',
+						$count,
+						'wp-custom-meta-box'
+					),
+					$count
+				)
+			)
+		);
+	}
+
+	/**
 	 * The transient key holding one user's errors for one object.
 	 *
 	 * @param ObjectRef $ref Object reference.
@@ -593,7 +711,17 @@ final class MetaBoxes extends Module {
 	public function render_errors(): void {
 		$screen = get_current_screen();
 
-		if ( ! $screen instanceof \WP_Screen || ! in_array( $screen->base, array( 'post', 'term', 'user-edit', 'profile', 'comment' ), true ) ) {
+		if ( ! $screen instanceof \WP_Screen ) {
+			return;
+		}
+
+		if ( 'edit' === $screen->base ) {
+			$this->render_list_notice();
+
+			return;
+		}
+
+		if ( ! in_array( $screen->base, array( 'post', 'term', 'user-edit', 'profile', 'comment' ), true ) ) {
 			return;
 		}
 
