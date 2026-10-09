@@ -54,7 +54,7 @@ final class FieldGroupEditor extends Module {
 	public function add_meta_boxes(): void {
 		add_meta_box(
 			'wpcmb-fields',
-			__( 'Fields', 'wp-custom-meta-box' ),
+			__( 'Fields', 'metafields-custom-fields' ),
 			array( $this, 'render_fields' ),
 			FieldGroupPostType::POST_TYPE,
 			'normal',
@@ -63,7 +63,7 @@ final class FieldGroupEditor extends Module {
 
 		add_meta_box(
 			'wpcmb-location',
-			__( 'Location Rules', 'wp-custom-meta-box' ),
+			__( 'Location Rules', 'metafields-custom-fields' ),
 			array( $this, 'render_location' ),
 			FieldGroupPostType::POST_TYPE,
 			'normal',
@@ -72,7 +72,7 @@ final class FieldGroupEditor extends Module {
 
 		add_meta_box(
 			'wpcmb-settings',
-			__( 'Display Settings', 'wp-custom-meta-box' ),
+			__( 'Display Settings', 'metafields-custom-fields' ),
 			array( $this, 'render_settings' ),
 			FieldGroupPostType::POST_TYPE,
 			'side',
@@ -81,7 +81,7 @@ final class FieldGroupEditor extends Module {
 
 		add_meta_box(
 			'wpcmb-block',
-			__( 'Block', 'wp-custom-meta-box' ),
+			__( 'Block', 'metafields-custom-fields' ),
 			array( $this, 'render_block_settings' ),
 			FieldGroupPostType::POST_TYPE,
 			'side',
@@ -101,17 +101,17 @@ final class FieldGroupEditor extends Module {
 			'<p><label class="wpcmb-checkbox"><input type="hidden" name="wpcmb[settings][block_enabled]" value="" />
 			<input type="checkbox" name="wpcmb[settings][block_enabled]" value="1"%s /> %s</label></p>',
 			checked( ! empty( $settings['block_enabled'] ), true, false ),
-			esc_html__( 'Register this group as a block', 'wp-custom-meta-box' )
+			esc_html__( 'Register this group as a block', 'metafields-custom-fields' )
 		);
 
 		$text = array(
 			'block_name'        => array(
-				__( 'Block name', 'wp-custom-meta-box' ),
-				__( 'Part of your saved content. Renaming it orphans blocks already placed.', 'wp-custom-meta-box' ),
+				__( 'Block name', 'metafields-custom-fields' ),
+				__( 'Part of your saved content. Renaming it orphans blocks already placed.', 'metafields-custom-fields' ),
 			),
-			'block_icon'        => array( __( 'Icon', 'wp-custom-meta-box' ), __( 'A Dashicon name, e.g. cover-image.', 'wp-custom-meta-box' ) ),
-			'block_description' => array( __( 'Description', 'wp-custom-meta-box' ), '' ),
-			'block_keywords'    => array( __( 'Keywords', 'wp-custom-meta-box' ), __( 'Comma separated.', 'wp-custom-meta-box' ) ),
+			'block_icon'        => array( __( 'Icon', 'metafields-custom-fields' ), __( 'A Dashicon name, e.g. cover-image.', 'metafields-custom-fields' ) ),
+			'block_description' => array( __( 'Description', 'metafields-custom-fields' ), '' ),
+			'block_keywords'    => array( __( 'Keywords', 'metafields-custom-fields' ), __( 'Comma separated.', 'metafields-custom-fields' ) ),
 		);
 
 		foreach ( $text as $name => $labels ) {
@@ -125,13 +125,13 @@ final class FieldGroupEditor extends Module {
 			);
 		}
 
-		printf( '<p><label class="wpcmb-label" for="wpcmb-block-mode">%s</label>', esc_html__( 'Default mode', 'wp-custom-meta-box' ) );
+		printf( '<p><label class="wpcmb-label" for="wpcmb-block-mode">%s</label>', esc_html__( 'Default mode', 'metafields-custom-fields' ) );
 		echo '<select class="widefat" id="wpcmb-block-mode" name="wpcmb[settings][block_mode]">';
 
 		foreach ( array(
-			'auto'    => __( 'Edit, then preview', 'wp-custom-meta-box' ),
-			'preview' => __( 'Preview', 'wp-custom-meta-box' ),
-			'edit'    => __( 'Edit', 'wp-custom-meta-box' ),
+			'auto'    => __( 'Edit, then preview', 'metafields-custom-fields' ),
+			'preview' => __( 'Preview', 'metafields-custom-fields' ),
+			'edit'    => __( 'Edit', 'metafields-custom-fields' ),
 		) as $value => $label ) {
 			printf(
 				'<option value="%s"%s>%s</option>',
@@ -145,15 +145,15 @@ final class FieldGroupEditor extends Module {
 
 		$chosen = (array) ( $settings['block_supports'] ?? array() );
 
-		echo '<fieldset class="wpcmb-fieldset"><legend>' . esc_html__( 'Supports', 'wp-custom-meta-box' ) . '</legend>';
+		echo '<fieldset class="wpcmb-fieldset"><legend>' . esc_html__( 'Supports', 'metafields-custom-fields' ) . '</legend>';
 
 		foreach ( array(
-			'align'             => __( 'Alignment', 'wp-custom-meta-box' ),
-			'anchor'            => __( 'Anchor', 'wp-custom-meta-box' ),
-			'custom_class_name' => __( 'Additional CSS class', 'wp-custom-meta-box' ),
-			'color'             => __( 'Colour', 'wp-custom-meta-box' ),
-			'spacing'           => __( 'Spacing', 'wp-custom-meta-box' ),
-			'typography'        => __( 'Typography', 'wp-custom-meta-box' ),
+			'align'             => __( 'Alignment', 'metafields-custom-fields' ),
+			'anchor'            => __( 'Anchor', 'metafields-custom-fields' ),
+			'custom_class_name' => __( 'Additional CSS class', 'metafields-custom-fields' ),
+			'color'             => __( 'Colour', 'metafields-custom-fields' ),
+			'spacing'           => __( 'Spacing', 'metafields-custom-fields' ),
+			'typography'        => __( 'Typography', 'metafields-custom-fields' ),
 		) as $value => $label ) {
 			printf(
 				'<label class="wpcmb-checkbox"><input type="checkbox" name="wpcmb[settings][block_supports][]" value="%s"%s /> %s</label>',
@@ -167,7 +167,7 @@ final class FieldGroupEditor extends Module {
 			'<label class="wpcmb-checkbox"><input type="hidden" name="wpcmb[settings][block_inner_blocks]" value="" />
 			<input type="checkbox" name="wpcmb[settings][block_inner_blocks]" value="1"%s /> %s</label>',
 			checked( ! empty( $settings['block_inner_blocks'] ), true, false ),
-			esc_html__( 'Allow inner blocks', 'wp-custom-meta-box' )
+			esc_html__( 'Allow inner blocks', 'metafields-custom-fields' )
 		);
 
 		echo '</fieldset>';
@@ -181,7 +181,7 @@ final class FieldGroupEditor extends Module {
 	 */
 	public function title_placeholder( $text, $post ): string {
 		if ( $post instanceof \WP_Post && FieldGroupPostType::POST_TYPE === $post->post_type ) {
-			return __( 'Field group title', 'wp-custom-meta-box' );
+			return __( 'Field group title', 'metafields-custom-fields' );
 		}
 
 		return (string) $text;
@@ -211,12 +211,12 @@ final class FieldGroupEditor extends Module {
 
 			<p class="wpcmb-builder__actions">
 				<button type="button" class="wpcmb-btn wpcmb-btn--add" data-wpcmb-add-field>
-					<?php esc_html_e( 'Add Field', 'wp-custom-meta-box' ); ?>
+					<?php esc_html_e( 'Add Field', 'metafields-custom-fields' ); ?>
 				</button>
 			</p>
 
 			<p class="wpcmb-builder__fallback">
-				<?php esc_html_e( 'The fields builder needs JavaScript. Your saved fields are unchanged while it is unavailable.', 'wp-custom-meta-box' ); ?>
+				<?php esc_html_e( 'The fields builder needs JavaScript. Your saved fields are unchanged while it is unavailable.', 'metafields-custom-fields' ); ?>
 			</p>
 		</div>
 		<?php
@@ -232,7 +232,7 @@ final class FieldGroupEditor extends Module {
 		?>
 		<div class="wpcmb-builder" data-wpcmb-builder="location">
 			<p class="description">
-				<?php esc_html_e( 'Show this field group when all rules in any one group match.', 'wp-custom-meta-box' ); ?>
+				<?php esc_html_e( 'Show this field group when all rules in any one group match.', 'metafields-custom-fields' ); ?>
 			</p>
 
 			<textarea
@@ -246,7 +246,7 @@ final class FieldGroupEditor extends Module {
 
 			<p class="wpcmb-builder__actions">
 				<button type="button" class="wpcmb-btn wpcmb-btn--add" data-wpcmb-add-group>
-					<?php esc_html_e( 'Add Rule Group', 'wp-custom-meta-box' ); ?>
+					<?php esc_html_e( 'Add Rule Group', 'metafields-custom-fields' ); ?>
 				</button>
 			</p>
 		</div>
@@ -263,30 +263,30 @@ final class FieldGroupEditor extends Module {
 
 		$selects = array(
 			'position'        => array(
-				'label'   => __( 'Position', 'wp-custom-meta-box' ),
+				'label'   => __( 'Position', 'metafields-custom-fields' ),
 				'choices' => array(
-					'normal'   => __( 'After content', 'wp-custom-meta-box' ),
-					'side'     => __( 'Side', 'wp-custom-meta-box' ),
-					'advanced' => __( 'Advanced', 'wp-custom-meta-box' ),
+					'normal'   => __( 'After content', 'metafields-custom-fields' ),
+					'side'     => __( 'Side', 'metafields-custom-fields' ),
+					'advanced' => __( 'Advanced', 'metafields-custom-fields' ),
 				),
 			),
 			'style'           => array(
-				'label'   => __( 'Style', 'wp-custom-meta-box' ),
+				'label'   => __( 'Style', 'metafields-custom-fields' ),
 				'choices' => array(
-					'default'  => __( 'Standard meta box', 'wp-custom-meta-box' ),
-					'seamless' => __( 'Seamless', 'wp-custom-meta-box' ),
+					'default'  => __( 'Standard meta box', 'metafields-custom-fields' ),
+					'seamless' => __( 'Seamless', 'metafields-custom-fields' ),
 				),
 			),
 			'label_placement' => array(
-				'label'   => __( 'Label placement', 'wp-custom-meta-box' ),
+				'label'   => __( 'Label placement', 'metafields-custom-fields' ),
 				'choices' => array(
-					'top'  => __( 'Above fields', 'wp-custom-meta-box' ),
-					'left' => __( 'Beside fields', 'wp-custom-meta-box' ),
+					'top'  => __( 'Above fields', 'metafields-custom-fields' ),
+					'left' => __( 'Beside fields', 'metafields-custom-fields' ),
 				),
 			),
 		);
 
-		echo '<p class="description">' . esc_html__( 'Publish this group to activate it. Saving it as a draft keeps it inactive.', 'wp-custom-meta-box' ) . '</p>';
+		echo '<p class="description">' . esc_html__( 'Publish this group to activate it. Saving it as a draft keeps it inactive.', 'metafields-custom-fields' ) . '</p>';
 
 		foreach ( $selects as $name => $select ) {
 			printf( '<p><label class="wpcmb-label" for="wpcmb-%1$s">%2$s</label>', esc_attr( $name ), esc_html( $select['label'] ) );
@@ -307,20 +307,20 @@ final class FieldGroupEditor extends Module {
 		printf(
 			'<p><label class="wpcmb-label" for="wpcmb-menu-order">%s</label>
 			<input class="widefat" type="number" id="wpcmb-menu-order" name="wpcmb[settings][menu_order]" value="%s" /></p>',
-			esc_html__( 'Order', 'wp-custom-meta-box' ),
+			esc_html__( 'Order', 'metafields-custom-fields' ),
 			esc_attr( (string) ( $settings['menu_order'] ?? 0 ) )
 		);
 
 		printf(
 			'<p><label class="wpcmb-label" for="wpcmb-description">%s</label>
 			<input class="widefat" type="text" id="wpcmb-description" name="wpcmb[settings][description]" value="%s" /></p>',
-			esc_html__( 'Description', 'wp-custom-meta-box' ),
+			esc_html__( 'Description', 'metafields-custom-fields' ),
 			esc_attr( (string) ( $settings['description'] ?? '' ) )
 		);
 
 		$hidden = (array) ( $settings['hide_on_screen'] ?? array() );
 
-		echo '<fieldset class="wpcmb-fieldset"><legend>' . esc_html__( 'Hide on screen', 'wp-custom-meta-box' ) . '</legend>';
+		echo '<fieldset class="wpcmb-fieldset"><legend>' . esc_html__( 'Hide on screen', 'metafields-custom-fields' ) . '</legend>';
 
 		foreach ( $this->hideable_elements() as $value => $label ) {
 			printf(
@@ -350,12 +350,12 @@ final class FieldGroupEditor extends Module {
 			<p><label class="wpcmb-label" for="wpcmb-shortcode-guests">%4$s</label>
 			<input class="widefat code" type="text" id="wpcmb-shortcode-guests" value="%5$s" readonly onfocus="this.select()" />
 			<span class="description">%6$s</span></p>',
-			esc_html__( 'Front-end form — signed-in visitors', 'wp-custom-meta-box' ),
+			esc_html__( 'Front-end form — signed-in visitors', 'metafields-custom-fields' ),
 			esc_attr( wpcmb_form_shortcode( $key ) ),
-			esc_html__( 'Paste into any post or page. Visitors who are not signed in are asked to sign in.', 'wp-custom-meta-box' ),
-			esc_html__( 'Front-end form — anyone', 'wp-custom-meta-box' ),
+			esc_html__( 'Paste into any post or page. Visitors who are not signed in are asked to sign in.', 'metafields-custom-fields' ),
+			esc_html__( 'Front-end form — anyone', 'metafields-custom-fields' ),
 			esc_attr( wpcmb_form_shortcode( $key, array( 'guests' => '1' ) ) ),
-			esc_html__( 'Accepts submissions from anyone, signed in or not. Uploads still need an account.', 'wp-custom-meta-box' )
+			esc_html__( 'Accepts submissions from anyone, signed in or not. Uploads still need an account.', 'metafields-custom-fields' )
 		);
 	}
 
@@ -458,19 +458,19 @@ final class FieldGroupEditor extends Module {
 	 */
 	private function hideable_elements(): array {
 		return array(
-			'permalink'       => __( 'Permalink', 'wp-custom-meta-box' ),
-			'the_content'     => __( 'Content editor', 'wp-custom-meta-box' ),
-			'excerpt'         => __( 'Excerpt', 'wp-custom-meta-box' ),
-			'discussion'      => __( 'Discussion', 'wp-custom-meta-box' ),
-			'comments'        => __( 'Comments', 'wp-custom-meta-box' ),
-			'revisions'       => __( 'Revisions', 'wp-custom-meta-box' ),
-			'slug'            => __( 'Slug', 'wp-custom-meta-box' ),
-			'author'          => __( 'Author', 'wp-custom-meta-box' ),
-			'format'          => __( 'Format', 'wp-custom-meta-box' ),
-			'featured_image'  => __( 'Featured image', 'wp-custom-meta-box' ),
-			'categories'      => __( 'Categories', 'wp-custom-meta-box' ),
-			'tags'            => __( 'Tags', 'wp-custom-meta-box' ),
-			'send-trackbacks' => __( 'Send trackbacks', 'wp-custom-meta-box' ),
+			'permalink'       => __( 'Permalink', 'metafields-custom-fields' ),
+			'the_content'     => __( 'Content editor', 'metafields-custom-fields' ),
+			'excerpt'         => __( 'Excerpt', 'metafields-custom-fields' ),
+			'discussion'      => __( 'Discussion', 'metafields-custom-fields' ),
+			'comments'        => __( 'Comments', 'metafields-custom-fields' ),
+			'revisions'       => __( 'Revisions', 'metafields-custom-fields' ),
+			'slug'            => __( 'Slug', 'metafields-custom-fields' ),
+			'author'          => __( 'Author', 'metafields-custom-fields' ),
+			'format'          => __( 'Format', 'metafields-custom-fields' ),
+			'featured_image'  => __( 'Featured image', 'metafields-custom-fields' ),
+			'categories'      => __( 'Categories', 'metafields-custom-fields' ),
+			'tags'            => __( 'Tags', 'metafields-custom-fields' ),
+			'send-trackbacks' => __( 'Send trackbacks', 'metafields-custom-fields' ),
 		);
 	}
 }

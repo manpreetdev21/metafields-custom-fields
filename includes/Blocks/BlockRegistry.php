@@ -280,8 +280,8 @@ final class BlockRegistry extends Module {
 
 		$theme = locate_template(
 			array(
-				'wp-custom-meta-box/blocks/' . $name . '.php',
-				'wp-custom-meta-box/block.php',
+				'metafields-custom-fields/blocks/' . $name . '.php',
+				'metafields-custom-fields/block.php',
 			)
 		);
 
@@ -312,7 +312,7 @@ final class BlockRegistry extends Module {
 
 		$categories[] = array(
 			'slug'  => self::CATEGORY,
-			'title' => __( 'Custom Meta Box', 'wp-custom-meta-box' ),
+			'title' => __( 'Custom Meta Box', 'metafields-custom-fields' ),
 			'icon'  => null,
 		);
 
@@ -355,16 +355,16 @@ final class BlockRegistry extends Module {
 				'nonce'   => wp_create_nonce( \WPCMB\Admin\Ajax::NONCE ),
 				'blocks'  => $blocks,
 				'i18n'    => array(
-					'edit'    => __( 'Edit', 'wp-custom-meta-box' ),
-					'preview' => __( 'Preview', 'wp-custom-meta-box' ),
-					'loading' => __( 'Loading fields…', 'wp-custom-meta-box' ),
-					'failed'  => __( 'The fields could not be loaded.', 'wp-custom-meta-box' ),
-					'empty'   => __( 'This block has no fields yet.', 'wp-custom-meta-box' ),
+					'edit'    => __( 'Edit', 'metafields-custom-fields' ),
+					'preview' => __( 'Preview', 'metafields-custom-fields' ),
+					'loading' => __( 'Loading fields…', 'metafields-custom-fields' ),
+					'failed'  => __( 'The fields could not be loaded.', 'metafields-custom-fields' ),
+					'empty'   => __( 'This block has no fields yet.', 'metafields-custom-fields' ),
 				),
 			)
 		);
 
-		wp_set_script_translations( 'wpcmb-blocks', 'wp-custom-meta-box', WPCMB_DIR . 'languages' );
+		wp_set_script_translations( 'wpcmb-blocks', 'metafields-custom-fields', WPCMB_DIR . 'languages' );
 	}
 
 	/**

@@ -35,10 +35,10 @@ final class Editor extends FieldType {
 	 */
 	public function types(): array {
 		return array(
-			'wysiwyg' => __( 'Rich Text', 'wp-custom-meta-box' ),
-			'code'    => __( 'Code', 'wp-custom-meta-box' ),
-			'json'    => __( 'JSON', 'wp-custom-meta-box' ),
-			'html'    => __( 'HTML', 'wp-custom-meta-box' ),
+			'wysiwyg' => __( 'Rich Text', 'metafields-custom-fields' ),
+			'code'    => __( 'Code', 'metafields-custom-fields' ),
+			'json'    => __( 'JSON', 'metafields-custom-fields' ),
+			'html'    => __( 'HTML', 'metafields-custom-fields' ),
 		);
 	}
 
@@ -46,7 +46,7 @@ final class Editor extends FieldType {
 	 * Editor group label.
 	 */
 	public function group_label(): string {
-		return __( 'Content', 'wp-custom-meta-box' );
+		return __( 'Content', 'metafields-custom-fields' );
 	}
 
 	/**
@@ -184,46 +184,46 @@ final class Editor extends FieldType {
 	public function settings_schema( string $type ): array {
 		$schema = array(
 			'rows' => array(
-				'label' => __( 'Rows', 'wp-custom-meta-box' ),
+				'label' => __( 'Rows', 'metafields-custom-fields' ),
 				'type'  => 'number',
 			),
 		);
 
 		if ( 'wysiwyg' === $type ) {
 			$schema['toolbar']       = array(
-				'label'   => __( 'Toolbar', 'wp-custom-meta-box' ),
+				'label'   => __( 'Toolbar', 'metafields-custom-fields' ),
 				'type'    => 'select',
 				'choices' => array(
-					'full'  => __( 'Full', 'wp-custom-meta-box' ),
-					'teeny' => __( 'Minimal', 'wp-custom-meta-box' ),
+					'full'  => __( 'Full', 'metafields-custom-fields' ),
+					'teeny' => __( 'Minimal', 'metafields-custom-fields' ),
 				),
 			);
 			$schema['tabs']          = array(
-				'label'   => __( 'Tabs', 'wp-custom-meta-box' ),
+				'label'   => __( 'Tabs', 'metafields-custom-fields' ),
 				'type'    => 'select',
 				'choices' => array(
-					'all'    => __( 'Visual and Text', 'wp-custom-meta-box' ),
-					'visual' => __( 'Visual only', 'wp-custom-meta-box' ),
-					'text'   => __( 'Text only', 'wp-custom-meta-box' ),
+					'all'    => __( 'Visual and Text', 'metafields-custom-fields' ),
+					'visual' => __( 'Visual only', 'metafields-custom-fields' ),
+					'text'   => __( 'Text only', 'metafields-custom-fields' ),
 				),
 			);
 			$schema['media_buttons'] = array(
-				'label' => __( 'Media buttons', 'wp-custom-meta-box' ),
+				'label' => __( 'Media buttons', 'metafields-custom-fields' ),
 				'type'  => 'toggle',
 			);
 			$schema['return_format'] = array(
-				'label'   => __( 'Return format', 'wp-custom-meta-box' ),
+				'label'   => __( 'Return format', 'metafields-custom-fields' ),
 				'type'    => 'select',
 				'choices' => array(
-					'html' => __( 'Apply content filters', 'wp-custom-meta-box' ),
-					'raw'  => __( 'Raw stored value', 'wp-custom-meta-box' ),
+					'html' => __( 'Apply content filters', 'metafields-custom-fields' ),
+					'raw'  => __( 'Raw stored value', 'metafields-custom-fields' ),
 				),
 			);
 		}
 
 		if ( 'json' === $type ) {
 			$schema['decode'] = array(
-				'label' => __( 'Return decoded array', 'wp-custom-meta-box' ),
+				'label' => __( 'Return decoded array', 'metafields-custom-fields' ),
 				'type'  => 'toggle',
 			);
 		}

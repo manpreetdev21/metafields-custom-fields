@@ -56,15 +56,15 @@ final class Choice extends FieldType {
 	 */
 	public function types(): array {
 		return array(
-			'select'       => __( 'Select', 'wp-custom-meta-box' ),
-			'checkbox'     => __( 'Checkbox', 'wp-custom-meta-box' ),
-			'radio'        => __( 'Radio', 'wp-custom-meta-box' ),
-			'toggle'       => __( 'Toggle', 'wp-custom-meta-box' ),
-			'true_false'   => __( 'True / False', 'wp-custom-meta-box' ),
-			'button_group' => __( 'Button Group', 'wp-custom-meta-box' ),
-			'rating'       => __( 'Rating', 'wp-custom-meta-box' ),
-			'country'      => __( 'Country', 'wp-custom-meta-box' ),
-			'state'        => __( 'State / Region', 'wp-custom-meta-box' ),
+			'select'       => __( 'Select', 'metafields-custom-fields' ),
+			'checkbox'     => __( 'Checkbox', 'metafields-custom-fields' ),
+			'radio'        => __( 'Radio', 'metafields-custom-fields' ),
+			'toggle'       => __( 'Toggle', 'metafields-custom-fields' ),
+			'true_false'   => __( 'True / False', 'metafields-custom-fields' ),
+			'button_group' => __( 'Button Group', 'metafields-custom-fields' ),
+			'rating'       => __( 'Rating', 'metafields-custom-fields' ),
+			'country'      => __( 'Country', 'metafields-custom-fields' ),
+			'state'        => __( 'State / Region', 'metafields-custom-fields' ),
 		);
 	}
 
@@ -72,7 +72,7 @@ final class Choice extends FieldType {
 	 * Editor group label.
 	 */
 	public function group_label(): string {
-		return __( 'Choice', 'wp-custom-meta-box' );
+		return __( 'Choice', 'metafields-custom-fields' );
 	}
 
 	/**
@@ -148,7 +148,7 @@ final class Choice extends FieldType {
 		if ( ! $multiple ) {
 			printf(
 				'<option value="">%s</option>',
-				esc_html( (string) $this->setting( $field, 'empty_label', __( '— Select —', 'wp-custom-meta-box' ) ) )
+				esc_html( (string) $this->setting( $field, 'empty_label', __( '— Select —', 'metafields-custom-fields' ) ) )
 			);
 		}
 
@@ -242,7 +242,7 @@ final class Choice extends FieldType {
 		$on = in_array( '1', $selected, true );
 
 		$label = 'true_false' === $type
-			? (string) $this->setting( $field, $on ? 'on_label' : 'off_label', $on ? __( 'True', 'wp-custom-meta-box' ) : __( 'False', 'wp-custom-meta-box' ) )
+			? (string) $this->setting( $field, $on ? 'on_label' : 'off_label', $on ? __( 'True', 'metafields-custom-fields' ) : __( 'False', 'metafields-custom-fields' ) )
 			: (string) $this->setting( $field, 'toggle_label', '' );
 
 		// An unchecked checkbox posts nothing, which is indistinguishable from
@@ -255,8 +255,8 @@ final class Choice extends FieldType {
 			esc_attr( $input_id ),
 			esc_attr( $input_name ),
 			$on ? ' checked' : '',
-			esc_attr( 'true_false' === $type ? (string) $this->setting( $field, 'on_label', __( 'True', 'wp-custom-meta-box' ) ) : '' ),
-			esc_attr( 'true_false' === $type ? (string) $this->setting( $field, 'off_label', __( 'False', 'wp-custom-meta-box' ) ) : '' ),
+			esc_attr( 'true_false' === $type ? (string) $this->setting( $field, 'on_label', __( 'True', 'metafields-custom-fields' ) ) : '' ),
+			esc_attr( 'true_false' === $type ? (string) $this->setting( $field, 'off_label', __( 'False', 'metafields-custom-fields' ) ) : '' ),
 			esc_html( $label )
 		);
 	}
@@ -324,7 +324,7 @@ final class Choice extends FieldType {
 		if ( 'toggle' === $type ) {
 			return array(
 				'toggle_label' => array(
-					'label' => __( 'Toggle label', 'wp-custom-meta-box' ),
+					'label' => __( 'Toggle label', 'metafields-custom-fields' ),
 					'type'  => 'text',
 				),
 			);
@@ -333,14 +333,14 @@ final class Choice extends FieldType {
 		if ( 'true_false' === $type ) {
 			return array(
 				'on_label'  => array(
-					'label' => __( 'Label when on', 'wp-custom-meta-box' ),
+					'label' => __( 'Label when on', 'metafields-custom-fields' ),
 					'type'  => 'text',
-					'help'  => __( 'Defaults to True.', 'wp-custom-meta-box' ),
+					'help'  => __( 'Defaults to True.', 'metafields-custom-fields' ),
 				),
 				'off_label' => array(
-					'label' => __( 'Label when off', 'wp-custom-meta-box' ),
+					'label' => __( 'Label when off', 'metafields-custom-fields' ),
 					'type'  => 'text',
-					'help'  => __( 'Defaults to False.', 'wp-custom-meta-box' ),
+					'help'  => __( 'Defaults to False.', 'metafields-custom-fields' ),
 				),
 			);
 		}
@@ -349,45 +349,45 @@ final class Choice extends FieldType {
 
 		if ( ! in_array( $type, array( 'country', 'state', 'rating' ), true ) ) {
 			$schema['choices'] = array(
-				'label' => __( 'Choices', 'wp-custom-meta-box' ),
+				'label' => __( 'Choices', 'metafields-custom-fields' ),
 				'type'  => 'choices',
-				'help'  => __( 'One per line. Use value : Label to set a value separately from its label.', 'wp-custom-meta-box' ),
+				'help'  => __( 'One per line. Use value : Label to set a value separately from its label.', 'metafields-custom-fields' ),
 			);
 		}
 
 		if ( 'rating' === $type ) {
 			$schema['max'] = array(
-				'label' => __( 'Maximum rating', 'wp-custom-meta-box' ),
+				'label' => __( 'Maximum rating', 'metafields-custom-fields' ),
 				'type'  => 'number',
 			);
 		}
 
 		if ( in_array( $type, array( 'select', 'checkbox', 'country', 'state' ), true ) ) {
 			$schema['multiple'] = array(
-				'label' => __( 'Allow multiple', 'wp-custom-meta-box' ),
+				'label' => __( 'Allow multiple', 'metafields-custom-fields' ),
 				'type'  => 'toggle',
 			);
 			$schema['min']      = array(
-				'label' => __( 'Minimum selections', 'wp-custom-meta-box' ),
+				'label' => __( 'Minimum selections', 'metafields-custom-fields' ),
 				'type'  => 'number',
 			);
 			$schema['max']      = array(
-				'label' => __( 'Maximum selections', 'wp-custom-meta-box' ),
+				'label' => __( 'Maximum selections', 'metafields-custom-fields' ),
 				'type'  => 'number',
 			);
 		}
 
 		$schema['return_format'] = array(
-			'label'   => __( 'Return format', 'wp-custom-meta-box' ),
+			'label'   => __( 'Return format', 'metafields-custom-fields' ),
 			'type'    => 'select',
 			'choices' => array(
-				'value' => __( 'Value', 'wp-custom-meta-box' ),
-				'label' => __( 'Label', 'wp-custom-meta-box' ),
+				'value' => __( 'Value', 'metafields-custom-fields' ),
+				'label' => __( 'Label', 'metafields-custom-fields' ),
 			),
 		);
 
 		$schema['validation_message'] = array(
-			'label' => __( 'Validation message', 'wp-custom-meta-box' ),
+			'label' => __( 'Validation message', 'metafields-custom-fields' ),
 			'type'  => 'text',
 		);
 

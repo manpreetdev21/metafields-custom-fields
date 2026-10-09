@@ -55,8 +55,8 @@ final class SettingsPage extends Module {
 	public function register_page(): void {
 		add_submenu_page(
 			Menu::SLUG,
-			__( 'Settings', 'wp-custom-meta-box' ),
-			__( 'Settings', 'wp-custom-meta-box' ),
+			__( 'Settings', 'metafields-custom-fields' ),
+			__( 'Settings', 'metafields-custom-fields' ),
 			FieldGroupPostType::capability(),
 			self::SLUG,
 			array( $this, 'render' )
@@ -90,14 +90,14 @@ final class SettingsPage extends Module {
 
 		add_settings_section(
 			'wpcmb_general',
-			__( 'General', 'wp-custom-meta-box' ),
+			__( 'General', 'metafields-custom-fields' ),
 			'__return_false',
 			self::SLUG
 		);
 
 		add_settings_field(
 			'wpcmb_admin_theme',
-			__( 'Admin theme', 'wp-custom-meta-box' ),
+			__( 'Admin theme', 'metafields-custom-fields' ),
 			array( $this, 'render_theme_field' ),
 			self::SLUG,
 			'wpcmb_general',
@@ -106,7 +106,7 @@ final class SettingsPage extends Module {
 
 		add_settings_field(
 			'wpcmb_delete_data_on_uninstall',
-			__( 'On uninstall', 'wp-custom-meta-box' ),
+			__( 'On uninstall', 'metafields-custom-fields' ),
 			array( $this, 'render_uninstall_field' ),
 			self::SLUG,
 			'wpcmb_general'
@@ -138,14 +138,14 @@ final class SettingsPage extends Module {
 
 		add_settings_section(
 			'wpcmb_lists',
-			__( 'Country and region lists', 'wp-custom-meta-box' ),
+			__( 'Country and region lists', 'metafields-custom-fields' ),
 			array( $this, 'render_lists_intro' ),
 			self::SLUG
 		);
 
 		add_settings_field(
 			Choice::COUNTRIES_OPTION,
-			__( 'Countries', 'wp-custom-meta-box' ),
+			__( 'Countries', 'metafields-custom-fields' ),
 			array( $this, 'render_countries_field' ),
 			self::SLUG,
 			'wpcmb_lists',
@@ -154,7 +154,7 @@ final class SettingsPage extends Module {
 
 		add_settings_field(
 			Choice::STATES_OPTION,
-			__( 'States / regions', 'wp-custom-meta-box' ),
+			__( 'States / regions', 'metafields-custom-fields' ),
 			array( $this, 'render_states_field' ),
 			self::SLUG,
 			'wpcmb_lists',
@@ -194,7 +194,7 @@ final class SettingsPage extends Module {
 			'<p class="description">%s</p>',
 			esc_html__(
 				'One entry per line, as "value : Label" — for example "FR : France". The value is what gets stored; the label is what editors see. Leave a list empty to use the built-in one.',
-				'wp-custom-meta-box'
+				'metafields-custom-fields'
 			)
 		);
 	}
@@ -206,7 +206,7 @@ final class SettingsPage extends Module {
 		$this->render_list_field(
 			Choice::COUNTRIES_OPTION,
 			"FR : France\nDE : Germany",
-			__( 'Adds to or replaces the built-in ISO country list.', 'wp-custom-meta-box' )
+			__( 'Adds to or replaces the built-in ISO country list.', 'metafields-custom-fields' )
 		);
 	}
 
@@ -217,7 +217,7 @@ final class SettingsPage extends Module {
 		$this->render_list_field(
 			Choice::STATES_OPTION,
 			"NSW : New South Wales\nVIC : Victoria",
-			__( 'The built-in list is US states. Replace it with the regions your site actually uses.', 'wp-custom-meta-box' )
+			__( 'The built-in list is US states. Replace it with the regions your site actually uses.', 'metafields-custom-fields' )
 		);
 	}
 
@@ -246,9 +246,9 @@ final class SettingsPage extends Module {
 		$current = (string) get_option( 'wpcmb_admin_theme', 'auto' );
 
 		$choices = array(
-			'auto'  => __( 'Follow the operating system', 'wp-custom-meta-box' ),
-			'light' => __( 'Always light', 'wp-custom-meta-box' ),
-			'dark'  => __( 'Always dark', 'wp-custom-meta-box' ),
+			'auto'  => __( 'Follow the operating system', 'metafields-custom-fields' ),
+			'light' => __( 'Always light', 'metafields-custom-fields' ),
+			'dark'  => __( 'Always dark', 'metafields-custom-fields' ),
 		);
 
 		echo '<select id="wpcmb_admin_theme" name="wpcmb_admin_theme">';
@@ -273,8 +273,8 @@ final class SettingsPage extends Module {
 			'<label><input type="checkbox" name="wpcmb_delete_data_on_uninstall" value="1"%s /> %s</label>
 			<p class="description">%s</p>',
 			checked( (bool) get_option( 'wpcmb_delete_data_on_uninstall' ), true, false ),
-			esc_html__( 'Delete all plugin data when the plugin is deleted', 'wp-custom-meta-box' ),
-			esc_html__( 'Off by default. Deleting a plugin to reinstall it should not cost you your field groups.', 'wp-custom-meta-box' )
+			esc_html__( 'Delete all plugin data when the plugin is deleted', 'metafields-custom-fields' ),
+			esc_html__( 'Off by default. Deleting a plugin to reinstall it should not cost you your field groups.', 'metafields-custom-fields' )
 		);
 	}
 
@@ -283,13 +283,13 @@ final class SettingsPage extends Module {
 	 */
 	public function render(): void {
 		if ( ! current_user_can( FieldGroupPostType::capability() ) ) {
-			wp_die( esc_html__( 'You do not have permission to view this page.', 'wp-custom-meta-box' ) );
+			wp_die( esc_html__( 'You do not have permission to view this page.', 'metafields-custom-fields' ) );
 		}
 
 		?>
 		<div class="wrap wpcmb-wrap">
-			<h1><?php esc_html_e( 'Custom Meta Box Settings', 'wp-custom-meta-box' ); ?></h1>
-			<p class="wpcmb-lede"><?php esc_html_e( 'How the plugin looks while you work, and what it leaves behind when it goes.', 'wp-custom-meta-box' ); ?></p>
+			<h1><?php esc_html_e( 'Custom Meta Box Settings', 'metafields-custom-fields' ); ?></h1>
+			<p class="wpcmb-lede"><?php esc_html_e( 'How the plugin looks while you work, and what it leaves behind when it goes.', 'metafields-custom-fields' ); ?></p>
 			<form action="options.php" method="post" class="wpcmb-settings-form">
 				<?php
 				settings_fields( self::OPTION_GROUP );

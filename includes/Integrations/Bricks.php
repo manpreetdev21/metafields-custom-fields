@@ -72,7 +72,7 @@ final class Bricks extends Module {
 				$tags[] = array(
 					'name'  => '{' . self::PREFIX . $field['name'] . '}',
 					'label' => (string) ( $field['label'] ?? $field['name'] ),
-					'group' => '' !== $group->title ? $group->title : __( 'Custom Meta Box', 'wp-custom-meta-box' ),
+					'group' => '' !== $group->title ? $group->title : __( 'Custom Meta Box', 'metafields-custom-fields' ),
 				);
 			}
 		}

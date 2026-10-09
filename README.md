@@ -7,7 +7,7 @@ Field groups, meta boxes and a developer-friendly field API for WordPress.
 - **Requires PHP:** 8.1
 - **Requires WordPress:** 6.8
 - **License:** GPL-2.0-or-later
-- **Text Domain:** `wp-custom-meta-box`
+- **Text Domain:** `metafields-custom-fields`
 - **Namespace:** `WPCMB`
 
 
@@ -33,7 +33,7 @@ Field groups, meta boxes and a developer-friendly field API for WordPress.
 Four moving parts, nothing more:
 
 ```
-wp-custom-meta-box.php   Bootstrap. The only procedural file.
+metafields-custom-fields.php   Bootstrap. The only procedural file.
   └─ Container          Lazy service container, shared instances, auto-wiring.
   └─ Plugin             Singleton. Owns the container, collects and boots modules.
       └─ Module         Abstract base. One per feature. boot() registers hooks.
@@ -43,7 +43,7 @@ wp-custom-meta-box.php   Bootstrap. The only procedural file.
 
 **Request flow**
 
-1. WordPress loads `wp-custom-meta-box.php`, which defines constants and registers an autoloader (Composer's if `vendor/` exists, a PSR-4 fallback otherwise).
+1. WordPress loads `metafields-custom-fields.php`, which defines constants and registers an autoloader (Composer's if `vendor/` exists, a PSR-4 fallback otherwise).
 2. `wpcmb()->init()` hooks `Plugin::boot()` to `plugins_loaded` at priority 5 — early enough that other plugins can act on `wpcmb/booted`.
 3. `boot()` runs the module list through the `wpcmb/modules` filter, resolves each class from the container, skips any whose `is_enabled()` returns false, and calls `boot()` on the rest.
 4. `wpcmb/booted` fires. Add-ons build on top from here.
@@ -464,7 +464,7 @@ A rejected submission gets the same wording as a genuine failure. Telling a bot 
 
 ### Template override
 
-Copy `templates/form.php` to `wp-custom-meta-box/form.php` in your theme, or filter `wpcmb/form/template`.
+Copy `templates/form.php` to `metafields-custom-fields/form.php` in your theme, or filter `wpcmb/form/template`.
 
 ## REST API
 
@@ -521,8 +521,8 @@ Tick **Register this group as a block** in the field group editor and give it a 
 
 Template resolution, first match wins:
 
-1. `wp-custom-meta-box/blocks/{block-name}.php` in the theme
-2. `wp-custom-meta-box/block.php` in the theme
+1. `metafields-custom-fields/blocks/{block-name}.php` in the theme
+2. `metafields-custom-fields/block.php` in the theme
 3. `templates/blocks/{block-name}.php` shipped by a plugin
 4. `templates/block.php` — the generic fallback
 
@@ -908,7 +908,7 @@ Deleting the plugin removes nothing unless `wpcmb_delete_data_on_uninstall` is s
 ## Checks
 
 ```bash
-composer test        # all 15 PHP checks, one process each
+composer test        # all 16 PHP checks, one process each
 npm test             # 156 browser tests against the real scripts
 php tests/integration.php   # real WordPress, non-destructive
 composer lint        # WordPress Coding Standards
@@ -942,12 +942,64 @@ php tests/validation-check.php   # required fields, including inside repeaters
 
 None of these need WordPress.
 
+## Packaging and release
+
+```bash
+php tests/release-check.php     # what the Plugin Directory asks of a submission
+php bin/build.php               # the uploadable zip, in build/
+```
+
+The build refuses to package anything the submission checks reject, because
+the build is the last moment anybody looks.
+
+| Rule | Enforced |
+|---|---|
+| Every header field the directory reads is filled in | ✅ |
+| The slug, the text domain and every translated string agree | ✅ |
+| `readme.txt` carries what the directory parses | ✅ |
+| The version is the same in the header, the constant and the readme | ✅ |
+| The licence is GPL, declared and shipped in full | ✅ |
+| No shipped file uses what the directory refuses | ✅ |
+| Every shipped PHP file parses and refuses direct access | ✅ |
+
+The slug lives in three places that must agree: the folder and main file the
+zip is built from, the text domain every translated string names, and the
+package files. The checks hold them together — a text domain that drifts from
+the slug means the directory's language packs silently never load, which is
+the kind of thing that is noticed a year later by somebody else.
+
+**What ships** is an allow list, not a deny list: the main file,
+`uninstall.php`, `readme.txt`, `LICENSE`, and the `includes`, `templates`,
+`assets` and `languages` directories. A deny list ships whatever is added to
+the checkout next, and the thing shipped by accident is always the thing
+nobody meant to publish. The zip's one top-level folder is named after the
+slug, whatever the checkout is called.
+
+**Composer is a development dependency.** The plugin prefers Composer's
+autoloader when it is there and falls back to its own PSR-4 loader when it is
+not, so the package carries no `vendor/` and installs from the zip run on the
+fallback. That path is worth testing before a release, because it is the one
+every installed copy uses:
+
+```bash
+mv vendor vendor.off && php -r 'require "…/wp-load.php"; var_dump( function_exists( "wpcmb" ) );' ; mv vendor.off vendor
+```
+
+### The internal prefix is not the slug
+
+The slug is `metafields-custom-fields`. The code prefix is `WPCMB\`, `wpcmb_`,
+the `wpcmb_field_group` post type, the `_wpcmb_config` meta key and every
+`wpcmb_*` option — and it stays that way. Renaming it would orphan every field
+group, every stored value and every setting on every site already running the
+plugin, which is a migration, not a rename.
+
+
 ## Directory layout
 
 Directories are created as their phase lands, not up front. Current tree:
 
 ```
-wp-custom-meta-box/
+metafields-custom-fields/
 ├── assets/
 │   ├── css/admin.css             plugin screens
 │   ├── css/fields.css            edit screens
@@ -1006,15 +1058,18 @@ wp-custom-meta-box/
 │   ├── Installer.php
 │   └── Plugin.php
 ├── tests/
-│   ├── *-check.php               15 standalone PHP checks
+│   ├── *-check.php               16 standalone PHP checks
 │   ├── integration.php          real WordPress, non-destructive
 │   ├── run.php                  runs every PHP check
 │   ├── shims.php
 │   └── js/                      156 browser tests + generated fixtures
 ├── vendor/
+├── bin/build.php                the uploadable zip
 ├── composer.json
 ├── phpcs.xml.dist
+├── readme.txt                   the Plugin Directory listing
+├── LICENSE                      GPLv2, in full
 ├── README.md
 ├── uninstall.php
-└── wp-custom-meta-box.php
+└── metafields-custom-fields.php
 ```

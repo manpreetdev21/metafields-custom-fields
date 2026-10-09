@@ -149,11 +149,11 @@ final class Form extends Module {
 		$group  = $this->container->get( Repository::class )->get( (string) $config['group'] );
 
 		if ( ! $group instanceof FieldGroup ) {
-			return $this->notice( __( 'That field group does not exist.', 'wp-custom-meta-box' ) );
+			return $this->notice( __( 'That field group does not exist.', 'metafields-custom-fields' ) );
 		}
 
 		if ( ! $this->may_submit( $config ) ) {
-			return $this->notice( __( 'You need to sign in to use this form.', 'wp-custom-meta-box' ) );
+			return $this->notice( __( 'You need to sign in to use this form.', 'metafields-custom-fields' ) );
 		}
 
 		// Storing values needs something to store them against, and `new` is
@@ -161,14 +161,14 @@ final class Form extends Module {
 		// a form that looks right until the first person fills it in.
 		if ( 'values' === $config['action'] && 'new' === $config['object'] ) {
 			return $this->notice(
-				__( 'This form has nowhere to store what it collects. Use action="post" to create a post, or object="post_12" to edit something that already exists.', 'wp-custom-meta-box' )
+				__( 'This form has nowhere to store what it collects. Use action="post" to create a post, or object="post_12" to edit something that already exists.', 'metafields-custom-fields' )
 			);
 		}
 
 		$ref = $this->object_ref( $config );
 
 		if ( 'new' !== $config['object'] && ! $this->may_edit( $config, $ref ) ) {
-			return $this->notice( __( 'You do not have permission to edit this.', 'wp-custom-meta-box' ) );
+			return $this->notice( __( 'You do not have permission to edit this.', 'metafields-custom-fields' ) );
 		}
 
 		// Derived here, where the group is known, and signed with the rest of
@@ -198,7 +198,7 @@ final class Form extends Module {
 		/**
 		 * Filters the template used to render a front-end form.
 		 *
-		 * Themes override by placing `wp-custom-meta-box/form.php` in the
+		 * Themes override by placing `metafields-custom-fields/form.php` in the
 		 * theme; this filter is for plugins that need to go further.
 		 *
 		 * @since 1.0.0
@@ -221,7 +221,7 @@ final class Form extends Module {
 	 * The template path, preferring one supplied by the theme.
 	 */
 	private function locate_template(): string {
-		$theme = locate_template( array( 'wp-custom-meta-box/form.php' ) );
+		$theme = locate_template( array( 'metafields-custom-fields/form.php' ) );
 
 		return '' !== $theme ? $theme : WPCMB_DIR . 'templates/form.php';
 	}
@@ -247,18 +247,18 @@ final class Form extends Module {
 				// requires an editing capability, and the icon picker is an
 				// admin control. Both degrade to the plain input out here.
 				'i18n' => array(
-					'remove'             => __( 'Remove', 'wp-custom-meta-box' ),
-					'selectMedia'        => __( 'Select media', 'wp-custom-meta-box' ),
-					'qrTooLong'          => __( 'That is too long to fit in a QR code.', 'wp-custom-meta-box' ),
-					'barcodeUnsupported' => __( 'A barcode can only hold plain ASCII characters.', 'wp-custom-meta-box' ),
+					'remove'             => __( 'Remove', 'metafields-custom-fields' ),
+					'selectMedia'        => __( 'Select media', 'metafields-custom-fields' ),
+					'qrTooLong'          => __( 'That is too long to fit in a QR code.', 'metafields-custom-fields' ),
+					'barcodeUnsupported' => __( 'A barcode can only hold plain ASCII characters.', 'metafields-custom-fields' ),
 
 					// The multiple select draws itself from these, so a form
 					// with one reads as an unlabelled box without them.
-					'searchOptions'      => __( 'Search options', 'wp-custom-meta-box' ),
-					'selectOptions'      => __( 'Select options', 'wp-custom-meta-box' ),
+					'searchOptions'      => __( 'Search options', 'metafields-custom-fields' ),
+					'selectOptions'      => __( 'Select options', 'metafields-custom-fields' ),
 					/* translators: %d: number of options chosen. */
-					'selectedCount'      => __( '%d selected', 'wp-custom-meta-box' ),
-					'noMatches'          => __( 'No matches. Try a different search.', 'wp-custom-meta-box' ),
+					'selectedCount'      => __( '%d selected', 'metafields-custom-fields' ),
+					'noMatches'          => __( 'No matches. Try a different search.', 'metafields-custom-fields' ),
 				),
 			)
 		);
@@ -279,8 +279,8 @@ final class Form extends Module {
 				'csv'     => false,
 				'i18n'    => array(
 					/* translators: %d: row number. Kept as a literal token so the script can substitute it. */
-					'row'       => __( 'Row %d', 'wp-custom-meta-box' ),
-					'rowFailed' => __( 'That row could not be added. Please try again.', 'wp-custom-meta-box' ),
+					'row'       => __( 'Row %d', 'metafields-custom-fields' ),
+					'rowFailed' => __( 'That row could not be added. Please try again.', 'metafields-custom-fields' ),
 				),
 			)
 		);
@@ -291,8 +291,8 @@ final class Form extends Module {
 			array(
 				'ajaxUrl' => admin_url( 'admin-ajax.php' ),
 				'i18n'    => array(
-					'submitting' => __( 'Sending…', 'wp-custom-meta-box' ),
-					'failed'     => __( 'Something went wrong. Please try again.', 'wp-custom-meta-box' ),
+					'submitting' => __( 'Sending…', 'metafields-custom-fields' ),
+					'failed'     => __( 'Something went wrong. Please try again.', 'metafields-custom-fields' ),
 				),
 			)
 		);

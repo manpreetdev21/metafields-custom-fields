@@ -156,7 +156,7 @@ final class SubmissionPostType extends Module {
 			$group = $repository->get( $group_key );
 			$title = $group instanceof FieldGroup && '' !== $group->title
 				? $group->title
-				: __( 'Form', 'wp-custom-meta-box' );
+				: __( 'Form', 'metafields-custom-fields' );
 
 			$this->register_one( $post_type, $title );
 		}
@@ -176,14 +176,14 @@ final class SubmissionPostType extends Module {
 	private function register_one( string $post_type, string $title ): void {
 		$labels = array(
 			/* translators: %s: field group title. */
-			'name'          => sprintf( __( '%s submissions', 'wp-custom-meta-box' ), $title ),
+			'name'          => sprintf( __( '%s submissions', 'metafields-custom-fields' ), $title ),
 			/* translators: %s: field group title. */
-			'singular_name' => sprintf( __( '%s submission', 'wp-custom-meta-box' ), $title ),
+			'singular_name' => sprintf( __( '%s submission', 'metafields-custom-fields' ), $title ),
 			'menu_name'     => $title,
 			/* translators: %s: field group title. */
-			'edit_item'     => sprintf( __( '%s submission', 'wp-custom-meta-box' ), $title ),
-			'search_items'  => __( 'Search submissions', 'wp-custom-meta-box' ),
-			'not_found'     => __( 'No submissions yet.', 'wp-custom-meta-box' ),
+			'edit_item'     => sprintf( __( '%s submission', 'metafields-custom-fields' ), $title ),
+			'search_items'  => __( 'Search submissions', 'metafields-custom-fields' ),
+			'not_found'     => __( 'No submissions yet.', 'metafields-custom-fields' ),
 		);
 
 		$args = array(

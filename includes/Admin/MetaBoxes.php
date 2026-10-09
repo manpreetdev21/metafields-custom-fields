@@ -135,7 +135,7 @@ final class MetaBoxes extends Module {
 	private function add_meta_box( FieldGroup $group, ObjectRef $ref, string $screen ): void {
 		add_meta_box(
 			'wpcmb-' . $group->key,
-			'' !== $group->title ? $group->title : __( 'Fields', 'wp-custom-meta-box' ),
+			'' !== $group->title ? $group->title : __( 'Fields', 'metafields-custom-fields' ),
 			function () use ( $group, $ref ): void {
 				$this->render_group( $group, $ref );
 			},
@@ -679,7 +679,7 @@ final class MetaBoxes extends Module {
 						'%d item was not published: open it and fill in its required fields first.',
 						'%d items were not published: open them and fill in their required fields first.',
 						$count,
-						'wp-custom-meta-box'
+						'metafields-custom-fields'
 					),
 					$count
 				)
@@ -749,8 +749,8 @@ final class MetaBoxes extends Module {
 			'<div class="notice notice-%s"><p><strong>%s</strong></p><ul class="wpcmb-error-list">',
 			$blocked ? 'error' : 'warning',
 			$blocked
-				? esc_html__( 'This was not published: fill in the required fields first. Your other changes were saved.', 'wp-custom-meta-box' )
-				: esc_html__( 'Your changes were saved, but some fields need attention:', 'wp-custom-meta-box' )
+				? esc_html__( 'This was not published: fill in the required fields first. Your other changes were saved.', 'metafields-custom-fields' )
+				: esc_html__( 'Your changes were saved, but some fields need attention:', 'metafields-custom-fields' )
 		);
 
 		foreach ( $errors as $message ) {

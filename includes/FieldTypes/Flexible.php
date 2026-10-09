@@ -41,14 +41,14 @@ final class Flexible extends Repeater {
 	 * @return array<string, string>
 	 */
 	public function types(): array {
-		return array( 'flexible_content' => __( 'Flexible Content', 'wp-custom-meta-box' ) );
+		return array( 'flexible_content' => __( 'Flexible Content', 'metafields-custom-fields' ) );
 	}
 
 	/**
 	 * Editor group label.
 	 */
 	public function group_label(): string {
-		return __( 'Layout', 'wp-custom-meta-box' );
+		return __( 'Layout', 'metafields-custom-fields' );
 	}
 
 	/**
@@ -78,7 +78,7 @@ final class Flexible extends Repeater {
 		if ( array() === $layouts ) {
 			printf(
 				'<p class="wpcmb-field__note">%s</p>',
-				esc_html__( 'This field has no layouts yet.', 'wp-custom-meta-box' )
+				esc_html__( 'This field has no layouts yet.', 'metafields-custom-fields' )
 			);
 
 			return;
@@ -130,7 +130,7 @@ final class Flexible extends Repeater {
 				<button type="button" class="wpcmb-btn wpcmb-repeater__add">%s</button>
 				<span class="wpcmb-repeater__csv"></span>
 			</p></div>',
-			esc_html( (string) $this->setting( $field, 'button_label', __( 'Add layout', 'wp-custom-meta-box' ) ) )
+			esc_html( (string) $this->setting( $field, 'button_label', __( 'Add layout', 'metafields-custom-fields' ) ) )
 		);
 	}
 
@@ -220,7 +220,7 @@ final class Flexible extends Repeater {
 		$this->render_row_header(
 			sprintf(
 				/* translators: %s: the layout name recorded on the row. */
-				__( 'Unknown layout: %s', 'wp-custom-meta-box' ),
+				__( 'Unknown layout: %s', 'metafields-custom-fields' ),
 				(string) ( $row[ self::LAYOUT_KEY ] ?? '' )
 			),
 			true
@@ -244,7 +244,7 @@ final class Flexible extends Repeater {
 
 		printf(
 			'<p class="wpcmb-field__note">%s</p>',
-			esc_html__( 'The layout this row was built with no longer exists. Its values are kept until you remove the row.', 'wp-custom-meta-box' )
+			esc_html__( 'The layout this row was built with no longer exists. Its values are kept until you remove the row.', 'metafields-custom-fields' )
 		);
 
 		echo '</div></div>';
@@ -366,19 +366,19 @@ final class Flexible extends Repeater {
 	public function settings_schema( string $type ): array {
 		return array(
 			'min'            => array(
-				'label' => __( 'Minimum rows', 'wp-custom-meta-box' ),
+				'label' => __( 'Minimum rows', 'metafields-custom-fields' ),
 				'type'  => 'number',
 			),
 			'max'            => array(
-				'label' => __( 'Maximum rows', 'wp-custom-meta-box' ),
+				'label' => __( 'Maximum rows', 'metafields-custom-fields' ),
 				'type'  => 'number',
 			),
 			'button_label'   => array(
-				'label' => __( 'Add button label', 'wp-custom-meta-box' ),
+				'label' => __( 'Add button label', 'metafields-custom-fields' ),
 				'type'  => 'text',
 			),
 			'collapse_after' => array(
-				'label' => __( 'Collapse rows after', 'wp-custom-meta-box' ),
+				'label' => __( 'Collapse rows after', 'metafields-custom-fields' ),
 				'type'  => 'number',
 			),
 		);
@@ -433,7 +433,7 @@ final class Flexible extends Repeater {
 				'icon'     => $layout['icon'],
 				'category' => '' !== $layout['category']
 					? $layout['category']
-					: __( 'Layouts', 'wp-custom-meta-box' ),
+					: __( 'Layouts', 'metafields-custom-fields' ),
 				'max'      => $layout['max'],
 			);
 		}

@@ -52,21 +52,21 @@ final class Input extends FieldType {
 	 */
 	public function types(): array {
 		return array(
-			'text'     => __( 'Text', 'wp-custom-meta-box' ),
-			'number'   => __( 'Number', 'wp-custom-meta-box' ),
-			'email'    => __( 'Email', 'wp-custom-meta-box' ),
-			'url'      => __( 'URL', 'wp-custom-meta-box' ),
-			'password' => __( 'Password', 'wp-custom-meta-box' ),
-			'hidden'   => __( 'Hidden', 'wp-custom-meta-box' ),
-			'range'    => __( 'Range', 'wp-custom-meta-box' ),
-			'color'    => __( 'Colour', 'wp-custom-meta-box' ),
-			'date'     => __( 'Date', 'wp-custom-meta-box' ),
-			'time'     => __( 'Time', 'wp-custom-meta-box' ),
-			'datetime' => __( 'Date & Time', 'wp-custom-meta-box' ),
-			'phone'    => __( 'Phone', 'wp-custom-meta-box' ),
-			'slug'     => __( 'Slug', 'wp-custom-meta-box' ),
-			'uuid'     => __( 'UUID', 'wp-custom-meta-box' ),
-			'currency' => __( 'Currency', 'wp-custom-meta-box' ),
+			'text'     => __( 'Text', 'metafields-custom-fields' ),
+			'number'   => __( 'Number', 'metafields-custom-fields' ),
+			'email'    => __( 'Email', 'metafields-custom-fields' ),
+			'url'      => __( 'URL', 'metafields-custom-fields' ),
+			'password' => __( 'Password', 'metafields-custom-fields' ),
+			'hidden'   => __( 'Hidden', 'metafields-custom-fields' ),
+			'range'    => __( 'Range', 'metafields-custom-fields' ),
+			'color'    => __( 'Colour', 'metafields-custom-fields' ),
+			'date'     => __( 'Date', 'metafields-custom-fields' ),
+			'time'     => __( 'Time', 'metafields-custom-fields' ),
+			'datetime' => __( 'Date & Time', 'metafields-custom-fields' ),
+			'phone'    => __( 'Phone', 'metafields-custom-fields' ),
+			'slug'     => __( 'Slug', 'metafields-custom-fields' ),
+			'uuid'     => __( 'UUID', 'metafields-custom-fields' ),
+			'currency' => __( 'Currency', 'metafields-custom-fields' ),
 		);
 	}
 
@@ -74,7 +74,7 @@ final class Input extends FieldType {
 	 * Editor group label.
 	 */
 	public function group_label(): string {
-		return __( 'Basic', 'wp-custom-meta-box' );
+		return __( 'Basic', 'metafields-custom-fields' );
 	}
 
 	/**
@@ -185,7 +185,7 @@ final class Input extends FieldType {
 			'class'      => 'wpcmb-color__swatch',
 			'value'      => '' !== $value ? $value : '#000000',
 			'tabindex'   => '-1',
-			'aria-label' => __( 'Pick a colour', 'wp-custom-meta-box' ),
+			'aria-label' => __( 'Pick a colour', 'metafields-custom-fields' ),
 		);
 
 		echo '<div class="wpcmb-color">';
@@ -264,45 +264,45 @@ final class Input extends FieldType {
 
 		if ( in_array( $type, array( 'number', 'range', 'currency' ), true ) ) {
 			$schema['min']  = array(
-				'label' => __( 'Minimum', 'wp-custom-meta-box' ),
+				'label' => __( 'Minimum', 'metafields-custom-fields' ),
 				'type'  => 'number',
 			);
 			$schema['max']  = array(
-				'label' => __( 'Maximum', 'wp-custom-meta-box' ),
+				'label' => __( 'Maximum', 'metafields-custom-fields' ),
 				'type'  => 'number',
 			);
 			$schema['step'] = array(
-				'label' => __( 'Step', 'wp-custom-meta-box' ),
+				'label' => __( 'Step', 'metafields-custom-fields' ),
 				'type'  => 'text',
 			);
 		}
 
 		if ( in_array( $type, array( 'text', 'password', 'phone', 'slug' ), true ) ) {
 			$schema['maxlength'] = array(
-				'label' => __( 'Maximum characters', 'wp-custom-meta-box' ),
+				'label' => __( 'Maximum characters', 'metafields-custom-fields' ),
 				'type'  => 'number',
 			);
 			$schema['minlength'] = array(
-				'label' => __( 'Minimum characters', 'wp-custom-meta-box' ),
+				'label' => __( 'Minimum characters', 'metafields-custom-fields' ),
 				'type'  => 'number',
 			);
 			$schema['pattern']   = array(
-				'label' => __( 'Validation pattern', 'wp-custom-meta-box' ),
+				'label' => __( 'Validation pattern', 'metafields-custom-fields' ),
 				'type'  => 'text',
 			);
 		}
 
 		if ( in_array( $type, array( 'date', 'time', 'datetime' ), true ) ) {
 			$schema['return_format'] = array(
-				'label' => __( 'Return format', 'wp-custom-meta-box' ),
+				'label' => __( 'Return format', 'metafields-custom-fields' ),
 				'type'  => 'text',
-				'help'  => __( 'A PHP date format. Leave empty to return the raw value.', 'wp-custom-meta-box' ),
+				'help'  => __( 'A PHP date format. Leave empty to return the raw value.', 'metafields-custom-fields' ),
 			);
 		}
 
 		if ( array() !== $schema ) {
 			$schema['validation_message'] = array(
-				'label' => __( 'Validation message', 'wp-custom-meta-box' ),
+				'label' => __( 'Validation message', 'metafields-custom-fields' ),
 				'type'  => 'text',
 			);
 		}

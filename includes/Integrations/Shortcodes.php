@@ -100,7 +100,7 @@ final class Shortcodes extends Module {
 	 */
 	private function stringify( mixed $value, string $separator, string $fallback ): string {
 		if ( is_bool( $value ) ) {
-			return $value ? __( 'Yes', 'wp-custom-meta-box' ) : $fallback;
+			return $value ? __( 'Yes', 'metafields-custom-fields' ) : $fallback;
 		}
 
 		if ( is_array( $value ) ) {

@@ -53,14 +53,14 @@ class Repeater extends FieldType {
 	 * @return array<string, string>
 	 */
 	public function types(): array {
-		return array( 'repeater' => __( 'Repeater', 'wp-custom-meta-box' ) );
+		return array( 'repeater' => __( 'Repeater', 'metafields-custom-fields' ) );
 	}
 
 	/**
 	 * Editor group label.
 	 */
 	public function group_label(): string {
-		return __( 'Layout', 'wp-custom-meta-box' );
+		return __( 'Layout', 'metafields-custom-fields' );
 	}
 
 	/**
@@ -90,7 +90,7 @@ class Repeater extends FieldType {
 		if ( array() === $sub_fields ) {
 			printf(
 				'<p class="wpcmb-field__note">%s</p>',
-				esc_html__( 'This repeater has no sub fields yet.', 'wp-custom-meta-box' )
+				esc_html__( 'This repeater has no sub fields yet.', 'metafields-custom-fields' )
 			);
 
 			return;
@@ -140,7 +140,7 @@ class Repeater extends FieldType {
 				<button type="button" class="wpcmb-btn wpcmb-repeater__add">%s</button>
 				<span class="wpcmb-repeater__csv"></span>
 			</p></div>',
-			esc_html( (string) $this->setting( $field, 'button_label', __( 'Add row', 'wp-custom-meta-box' ) ) )
+			esc_html( (string) $this->setting( $field, 'button_label', __( 'Add row', 'metafields-custom-fields' ) ) )
 		);
 	}
 
@@ -242,10 +242,10 @@ class Repeater extends FieldType {
 				? '<span class="wpcmb-repeater__badge dashicons ' . esc_attr( $badge ) . '" aria-hidden="true"></span>'
 				: '',
 			esc_html( $title ),
-			esc_attr__( 'Move up', 'wp-custom-meta-box' ),
-			esc_attr__( 'Move down', 'wp-custom-meta-box' ),
-			esc_attr__( 'Duplicate row', 'wp-custom-meta-box' ),
-			esc_attr__( 'Remove row', 'wp-custom-meta-box' ),
+			esc_attr__( 'Move up', 'metafields-custom-fields' ),
+			esc_attr__( 'Move down', 'metafields-custom-fields' ),
+			esc_attr__( 'Duplicate row', 'metafields-custom-fields' ),
+			esc_attr__( 'Remove row', 'metafields-custom-fields' ),
 			self::control_icon( 'grip' ),
 			self::control_icon( 'chevron' ),
 			self::control_icon( 'up' ),
@@ -402,37 +402,37 @@ class Repeater extends FieldType {
 	public function settings_schema( string $type ): array {
 		return array(
 			'min'            => array(
-				'label' => __( 'Minimum rows', 'wp-custom-meta-box' ),
+				'label' => __( 'Minimum rows', 'metafields-custom-fields' ),
 				'type'  => 'number',
 			),
 			'max'            => array(
-				'label' => __( 'Maximum rows', 'wp-custom-meta-box' ),
+				'label' => __( 'Maximum rows', 'metafields-custom-fields' ),
 				'type'  => 'number',
 			),
 			'layout'         => array(
-				'label'   => __( 'Layout', 'wp-custom-meta-box' ),
+				'label'   => __( 'Layout', 'metafields-custom-fields' ),
 				'type'    => 'select',
 				'choices' => array(
-					'block' => __( 'Block', 'wp-custom-meta-box' ),
-					'table' => __( 'Table', 'wp-custom-meta-box' ),
+					'block' => __( 'Block', 'metafields-custom-fields' ),
+					'table' => __( 'Table', 'metafields-custom-fields' ),
 				),
 			),
 			'button_label'   => array(
-				'label' => __( 'Add row button label', 'wp-custom-meta-box' ),
+				'label' => __( 'Add row button label', 'metafields-custom-fields' ),
 				'type'  => 'text',
 			),
 			'row_label'      => array(
-				'label' => __( 'Row label', 'wp-custom-meta-box' ),
+				'label' => __( 'Row label', 'metafields-custom-fields' ),
 				'type'  => 'text',
-				'help'  => __( 'Use {index} for the row number. Defaults to "Row 1", "Row 2".', 'wp-custom-meta-box' ),
+				'help'  => __( 'Use {index} for the row number. Defaults to "Row 1", "Row 2".', 'metafields-custom-fields' ),
 			),
 			'collapse_after' => array(
-				'label' => __( 'Collapse rows after', 'wp-custom-meta-box' ),
+				'label' => __( 'Collapse rows after', 'metafields-custom-fields' ),
 				'type'  => 'number',
-				'help'  => __( 'Rows past this position start collapsed.', 'wp-custom-meta-box' ),
+				'help'  => __( 'Rows past this position start collapsed.', 'metafields-custom-fields' ),
 			),
 			'csv'            => array(
-				'label' => __( 'Show CSV import and export', 'wp-custom-meta-box' ),
+				'label' => __( 'Show CSV import and export', 'metafields-custom-fields' ),
 				'type'  => 'toggle',
 			),
 		);
@@ -482,7 +482,7 @@ class Repeater extends FieldType {
 
 		if ( '' === $label ) {
 			/* translators: %d: row number. */
-			return sprintf( __( 'Row %d', 'wp-custom-meta-box' ), $index + 1 );
+			return sprintf( __( 'Row %d', 'metafields-custom-fields' ), $index + 1 );
 		}
 
 		return str_replace( '{index}', (string) ( $index + 1 ), $label );

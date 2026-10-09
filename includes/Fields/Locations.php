@@ -30,125 +30,125 @@ final class Locations {
 	 * @return array<string, array{label: string, group: string}>
 	 */
 	public static function params(): array {
-		$post  = __( 'Post', 'wp-custom-meta-box' );
-		$page  = __( 'Page', 'wp-custom-meta-box' );
-		$user  = __( 'User', 'wp-custom-meta-box' );
-		$forms = __( 'Forms', 'wp-custom-meta-box' );
-		$woo   = __( 'WooCommerce', 'wp-custom-meta-box' );
+		$post  = __( 'Post', 'metafields-custom-fields' );
+		$page  = __( 'Page', 'metafields-custom-fields' );
+		$user  = __( 'User', 'metafields-custom-fields' );
+		$forms = __( 'Forms', 'metafields-custom-fields' );
+		$woo   = __( 'WooCommerce', 'metafields-custom-fields' );
 
 		$params = array(
 			'post_type'         => array(
-				'label' => __( 'Post Type', 'wp-custom-meta-box' ),
+				'label' => __( 'Post Type', 'metafields-custom-fields' ),
 				'icon'  => 'dashicons-admin-post',
 				'group' => $post,
 			),
 			'post_template'     => array(
-				'label' => __( 'Post Template', 'wp-custom-meta-box' ),
+				'label' => __( 'Post Template', 'metafields-custom-fields' ),
 				'icon'  => 'dashicons-layout',
 				'group' => $post,
 			),
 			'post_status'       => array(
-				'label' => __( 'Post Status', 'wp-custom-meta-box' ),
+				'label' => __( 'Post Status', 'metafields-custom-fields' ),
 				'icon'  => 'dashicons-post-status',
 				'group' => $post,
 			),
 			'post_format'       => array(
-				'label' => __( 'Post Format', 'wp-custom-meta-box' ),
+				'label' => __( 'Post Format', 'metafields-custom-fields' ),
 				'icon'  => 'dashicons-format-aside',
 				'group' => $post,
 			),
 			'post_category'     => array(
-				'label' => __( 'Post Category', 'wp-custom-meta-box' ),
+				'label' => __( 'Post Category', 'metafields-custom-fields' ),
 				'icon'  => 'dashicons-category',
 				'group' => $post,
 			),
 			'post_taxonomy'     => array(
-				'label' => __( 'Post Taxonomy', 'wp-custom-meta-box' ),
+				'label' => __( 'Post Taxonomy', 'metafields-custom-fields' ),
 				'icon'  => 'dashicons-tag',
 				'group' => $post,
 			),
 			'post'              => array(
-				'label' => __( 'Post', 'wp-custom-meta-box' ),
+				'label' => __( 'Post', 'metafields-custom-fields' ),
 				'icon'  => 'dashicons-admin-post',
 				'group' => $post,
 			),
 			'page_template'     => array(
-				'label' => __( 'Page Template', 'wp-custom-meta-box' ),
+				'label' => __( 'Page Template', 'metafields-custom-fields' ),
 				'icon'  => 'dashicons-layout',
 				'group' => $page,
 			),
 			'page_type'         => array(
-				'label' => __( 'Page Type', 'wp-custom-meta-box' ),
+				'label' => __( 'Page Type', 'metafields-custom-fields' ),
 				'icon'  => 'dashicons-admin-page',
 				'group' => $page,
 			),
 			'page_parent'       => array(
-				'label' => __( 'Page Parent', 'wp-custom-meta-box' ),
+				'label' => __( 'Page Parent', 'metafields-custom-fields' ),
 				'icon'  => 'dashicons-networking',
 				'group' => $page,
 			),
 			'page'              => array(
-				'label' => __( 'Page', 'wp-custom-meta-box' ),
+				'label' => __( 'Page', 'metafields-custom-fields' ),
 				'icon'  => 'dashicons-admin-page',
 				'group' => $page,
 			),
 			'current_user'      => array(
-				'label' => __( 'Current User', 'wp-custom-meta-box' ),
+				'label' => __( 'Current User', 'metafields-custom-fields' ),
 				'icon'  => 'dashicons-admin-users',
 				'group' => $user,
 			),
 			'current_user_role' => array(
-				'label' => __( 'Current User Role', 'wp-custom-meta-box' ),
+				'label' => __( 'Current User Role', 'metafields-custom-fields' ),
 				'icon'  => 'dashicons-groups',
 				'group' => $user,
 			),
 			'user_form'         => array(
-				'label' => __( 'User Form', 'wp-custom-meta-box' ),
+				'label' => __( 'User Form', 'metafields-custom-fields' ),
 				'icon'  => 'dashicons-id',
 				'group' => $user,
 			),
 			'user_role'         => array(
-				'label' => __( 'User Role', 'wp-custom-meta-box' ),
+				'label' => __( 'User Role', 'metafields-custom-fields' ),
 				'icon'  => 'dashicons-groups',
 				'group' => $user,
 			),
 			'taxonomy'          => array(
-				'label' => __( 'Taxonomy', 'wp-custom-meta-box' ),
+				'label' => __( 'Taxonomy', 'metafields-custom-fields' ),
 				'icon'  => 'dashicons-tag',
 				'group' => $forms,
 			),
 			'attachment'        => array(
-				'label' => __( 'Attachment', 'wp-custom-meta-box' ),
+				'label' => __( 'Attachment', 'metafields-custom-fields' ),
 				'icon'  => 'dashicons-admin-media',
 				'group' => $forms,
 			),
 			'comment'           => array(
-				'label' => __( 'Comment', 'wp-custom-meta-box' ),
+				'label' => __( 'Comment', 'metafields-custom-fields' ),
 				'icon'  => 'dashicons-admin-comments',
 				'group' => $forms,
 			),
 			'nav_menu'          => array(
-				'label' => __( 'Menu', 'wp-custom-meta-box' ),
+				'label' => __( 'Menu', 'metafields-custom-fields' ),
 				'icon'  => 'dashicons-menu',
 				'group' => $forms,
 			),
 			'nav_menu_item'     => array(
-				'label' => __( 'Menu Item', 'wp-custom-meta-box' ),
+				'label' => __( 'Menu Item', 'metafields-custom-fields' ),
 				'icon'  => 'dashicons-menu-alt3',
 				'group' => $forms,
 			),
 			'widget'            => array(
-				'label' => __( 'Widget', 'wp-custom-meta-box' ),
+				'label' => __( 'Widget', 'metafields-custom-fields' ),
 				'icon'  => 'dashicons-screenoptions',
 				'group' => $forms,
 			),
 			'block'             => array(
-				'label' => __( 'Block', 'wp-custom-meta-box' ),
+				'label' => __( 'Block', 'metafields-custom-fields' ),
 				'icon'  => 'dashicons-block-default',
 				'group' => $forms,
 			),
 			'options_page'      => array(
-				'label' => __( 'Options Page', 'wp-custom-meta-box' ),
+				'label' => __( 'Options Page', 'metafields-custom-fields' ),
 				'icon'  => 'dashicons-admin-generic',
 				'group' => $forms,
 			),
@@ -156,12 +156,12 @@ final class Locations {
 
 		if ( class_exists( 'WooCommerce' ) ) {
 			$params['wc_product_type'] = array(
-				'label' => __( 'Product Type', 'wp-custom-meta-box' ),
+				'label' => __( 'Product Type', 'metafields-custom-fields' ),
 				'icon'  => 'dashicons-cart',
 				'group' => $woo,
 			);
 			$params['wc_order_status'] = array(
-				'label' => __( 'Order Status', 'wp-custom-meta-box' ),
+				'label' => __( 'Order Status', 'metafields-custom-fields' ),
 				'icon'  => 'dashicons-clipboard',
 				'group' => $woo,
 			);
@@ -200,30 +200,30 @@ final class Locations {
 			'post_template'     => self::templates(),
 			'page_template'     => self::templates( 'page' ),
 			'page_type'         => array(
-				'front_page' => __( 'Front Page', 'wp-custom-meta-box' ),
-				'posts_page' => __( 'Posts Page', 'wp-custom-meta-box' ),
-				'top_level'  => __( 'Top Level Page', 'wp-custom-meta-box' ),
-				'parent'     => __( 'Parent Page', 'wp-custom-meta-box' ),
-				'child'      => __( 'Child Page', 'wp-custom-meta-box' ),
+				'front_page' => __( 'Front Page', 'metafields-custom-fields' ),
+				'posts_page' => __( 'Posts Page', 'metafields-custom-fields' ),
+				'top_level'  => __( 'Top Level Page', 'metafields-custom-fields' ),
+				'parent'     => __( 'Parent Page', 'metafields-custom-fields' ),
+				'child'      => __( 'Child Page', 'metafields-custom-fields' ),
 			),
 			'user_form'         => array(
-				'add'      => __( 'Add User', 'wp-custom-meta-box' ),
-				'edit'     => __( 'Edit User', 'wp-custom-meta-box' ),
-				'register' => __( 'Register User', 'wp-custom-meta-box' ),
+				'add'      => __( 'Add User', 'metafields-custom-fields' ),
+				'edit'     => __( 'Edit User', 'metafields-custom-fields' ),
+				'register' => __( 'Register User', 'metafields-custom-fields' ),
 			),
 			'taxonomy'          => self::taxonomies(),
 			'post_taxonomy'     => self::taxonomies(),
 			'current_user'      => array(
-				'logged_in'     => __( 'Logged In', 'wp-custom-meta-box' ),
-				'viewing_front' => __( 'Viewing Front End', 'wp-custom-meta-box' ),
-				'viewing_back'  => __( 'Viewing Back End', 'wp-custom-meta-box' ),
+				'logged_in'     => __( 'Logged In', 'metafields-custom-fields' ),
+				'viewing_front' => __( 'Viewing Front End', 'metafields-custom-fields' ),
+				'viewing_back'  => __( 'Viewing Back End', 'metafields-custom-fields' ),
 			),
 			'current_user_role' => self::roles(),
 			'user_role'         => self::roles(),
-			'attachment'        => array( 'all' => __( 'All', 'wp-custom-meta-box' ) ),
+			'attachment'        => array( 'all' => __( 'All', 'metafields-custom-fields' ) ),
 			'comment'           => self::post_types(),
 			'nav_menu'          => self::nav_menus(),
-			'nav_menu_item'     => array( 'all' => __( 'All', 'wp-custom-meta-box' ) ),
+			'nav_menu_item'     => array( 'all' => __( 'All', 'metafields-custom-fields' ) ),
 			'widget'            => self::widgets(),
 			'block'             => array(),
 			'options_page'      => array(),
@@ -269,22 +269,22 @@ final class Locations {
 			'post'          => array(
 				'kind'      => 'post',
 				'post_type' => 'any',
-				'label'     => __( 'Search posts', 'wp-custom-meta-box' ),
+				'label'     => __( 'Search posts', 'metafields-custom-fields' ),
 			),
 			'page'          => array(
 				'kind'      => 'post',
 				'post_type' => 'page',
-				'label'     => __( 'Search pages', 'wp-custom-meta-box' ),
+				'label'     => __( 'Search pages', 'metafields-custom-fields' ),
 			),
 			'page_parent'   => array(
 				'kind'      => 'post',
 				'post_type' => 'page',
-				'label'     => __( 'Search pages', 'wp-custom-meta-box' ),
+				'label'     => __( 'Search pages', 'metafields-custom-fields' ),
 			),
 			'post_category' => array(
 				'kind'     => 'term',
 				'taxonomy' => 'category',
-				'label'    => __( 'Search categories', 'wp-custom-meta-box' ),
+				'label'    => __( 'Search categories', 'metafields-custom-fields' ),
 			),
 		);
 
@@ -364,7 +364,7 @@ final class Locations {
 				'value' => (string) $post->ID,
 				'label' => sprintf(
 					/* translators: 1: post title, 2: post type label, 3: post id. */
-					__( '%1$s — %2$s (#%3$d)', 'wp-custom-meta-box' ),
+					__( '%1$s — %2$s (#%3$d)', 'metafields-custom-fields' ),
 					self::plain_title( $post->post_title ),
 					$type instanceof \WP_Post_Type ? $type->labels->singular_name : $post->post_type,
 					$post->ID
@@ -387,7 +387,7 @@ final class Locations {
 	private static function plain_title( string $title ): string {
 		$title = wp_specialchars_decode( wp_strip_all_tags( $title ), ENT_QUOTES );
 
-		return '' !== trim( $title ) ? $title : __( '(no title)', 'wp-custom-meta-box' );
+		return '' !== trim( $title ) ? $title : __( '(no title)', 'metafields-custom-fields' );
 	}
 
 	/**
@@ -472,7 +472,7 @@ final class Locations {
 
 		return sprintf(
 			/* translators: 1: post title, 2: post id. */
-			__( '%1$s (#%2$d)', 'wp-custom-meta-box' ),
+			__( '%1$s (#%2$d)', 'metafields-custom-fields' ),
 			self::plain_title( $post->post_title ),
 			$post->ID
 		);
@@ -578,17 +578,17 @@ final class Locations {
 				$parts[] = sprintf(
 					'%s %s %s',
 					$label,
-					'!=' === $rule['operator'] ? __( 'is not', 'wp-custom-meta-box' ) : __( 'is', 'wp-custom-meta-box' ),
+					'!=' === $rule['operator'] ? __( 'is not', 'metafields-custom-fields' ) : __( 'is', 'metafields-custom-fields' ),
 					$value
 				);
 			}
 
 			if ( array() !== $parts ) {
-				$groups[] = implode( __( ' and ', 'wp-custom-meta-box' ), $parts );
+				$groups[] = implode( __( ' and ', 'metafields-custom-fields' ), $parts );
 			}
 		}
 
-		return implode( __( ' or ', 'wp-custom-meta-box' ), $groups );
+		return implode( __( ' or ', 'metafields-custom-fields' ), $groups );
 	}
 
 	/**
@@ -698,7 +698,7 @@ final class Locations {
 	 * @return array<string, string>
 	 */
 	private static function templates( string $post_type = '' ): array {
-		$templates = array( 'default' => __( 'Default Template', 'wp-custom-meta-box' ) );
+		$templates = array( 'default' => __( 'Default Template', 'metafields-custom-fields' ) );
 
 		// get_page_templates() lives in wp-admin and is absent on the front
 		// end, in REST requests and in WP-CLI, all of which reach choices().

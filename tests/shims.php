@@ -14,7 +14,7 @@ declare( strict_types=1 );
 defined( 'ABSPATH' ) || define( 'ABSPATH', __DIR__ );
 
 define( 'WPCMB_VERSION', '1.0.0' );
-define( 'WPCMB_BASENAME', 'wp-custom-meta-box/wp-custom-meta-box.php' );
+define( 'WPCMB_BASENAME', 'metafields-custom-fields/metafields-custom-fields.php' );
 define( 'MINUTE_IN_SECONDS', 60 );
 define( 'HOUR_IN_SECONDS', 3600 );
 

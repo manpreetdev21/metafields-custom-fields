@@ -27,14 +27,14 @@ final class Textarea extends FieldType {
 	 * @return array<string, string>
 	 */
 	public function types(): array {
-		return array( 'textarea' => __( 'Text Area', 'wp-custom-meta-box' ) );
+		return array( 'textarea' => __( 'Text Area', 'metafields-custom-fields' ) );
 	}
 
 	/**
 	 * Editor group label.
 	 */
 	public function group_label(): string {
-		return __( 'Basic', 'wp-custom-meta-box' );
+		return __( 'Basic', 'metafields-custom-fields' );
 	}
 
 	/**
@@ -114,24 +114,24 @@ final class Textarea extends FieldType {
 	public function settings_schema( string $type ): array {
 		return array(
 			'rows'               => array(
-				'label' => __( 'Rows', 'wp-custom-meta-box' ),
+				'label' => __( 'Rows', 'metafields-custom-fields' ),
 				'type'  => 'number',
 			),
 			'maxlength'          => array(
-				'label' => __( 'Maximum characters', 'wp-custom-meta-box' ),
+				'label' => __( 'Maximum characters', 'metafields-custom-fields' ),
 				'type'  => 'number',
 			),
 			'new_lines'          => array(
-				'label'   => __( 'New lines', 'wp-custom-meta-box' ),
+				'label'   => __( 'New lines', 'metafields-custom-fields' ),
 				'type'    => 'select',
 				'choices' => array(
-					'none'    => __( 'Return unchanged', 'wp-custom-meta-box' ),
-					'wpautop' => __( 'Add paragraphs', 'wp-custom-meta-box' ),
-					'br'      => __( 'Add line breaks', 'wp-custom-meta-box' ),
+					'none'    => __( 'Return unchanged', 'metafields-custom-fields' ),
+					'wpautop' => __( 'Add paragraphs', 'metafields-custom-fields' ),
+					'br'      => __( 'Add line breaks', 'metafields-custom-fields' ),
 				),
 			),
 			'validation_message' => array(
-				'label' => __( 'Validation message', 'wp-custom-meta-box' ),
+				'label' => __( 'Validation message', 'metafields-custom-fields' ),
 				'type'  => 'text',
 			),
 		);

@@ -30,10 +30,10 @@ final class Structure extends FieldType {
 	 */
 	public function types(): array {
 		return array(
-			'message'   => __( 'Message', 'wp-custom-meta-box' ),
-			'tab'       => __( 'Tab', 'wp-custom-meta-box' ),
-			'accordion' => __( 'Accordion', 'wp-custom-meta-box' ),
-			'group'     => __( 'Group', 'wp-custom-meta-box' ),
+			'message'   => __( 'Message', 'metafields-custom-fields' ),
+			'tab'       => __( 'Tab', 'metafields-custom-fields' ),
+			'accordion' => __( 'Accordion', 'metafields-custom-fields' ),
+			'group'     => __( 'Group', 'metafields-custom-fields' ),
 		);
 	}
 
@@ -41,7 +41,7 @@ final class Structure extends FieldType {
 	 * Editor group label.
 	 */
 	public function group_label(): string {
-		return __( 'Layout', 'wp-custom-meta-box' );
+		return __( 'Layout', 'metafields-custom-fields' );
 	}
 
 	/**
@@ -146,7 +146,7 @@ final class Structure extends FieldType {
 		if ( array() === $sub_fields ) {
 			printf(
 				'<p class="wpcmb-field__note">%s</p>',
-				esc_html__( 'This group has no fields yet.', 'wp-custom-meta-box' )
+				esc_html__( 'This group has no fields yet.', 'metafields-custom-fields' )
 			);
 
 			return;
@@ -236,13 +236,13 @@ final class Structure extends FieldType {
 		return match ( $type ) {
 			'message'   => array(
 				'message' => array(
-					'label' => __( 'Message', 'wp-custom-meta-box' ),
+					'label' => __( 'Message', 'metafields-custom-fields' ),
 					'type'  => 'textarea',
 				),
 			),
 			'accordion' => array(
 				'open' => array(
-					'label' => __( 'Open by default', 'wp-custom-meta-box' ),
+					'label' => __( 'Open by default', 'metafields-custom-fields' ),
 					'type'  => 'toggle',
 				),
 			),

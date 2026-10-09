@@ -142,7 +142,7 @@ final class Plugin {
 	 * just-in-time textdomain notices.
 	 */
 	public function load_textdomain(): void {
-		load_plugin_textdomain( 'wp-custom-meta-box', false, dirname( WPCMB_BASENAME ) . '/languages' );
+		load_plugin_textdomain( 'metafields-custom-fields', false, dirname( WPCMB_BASENAME ) . '/languages' );
 	}
 
 	/**

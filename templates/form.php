@@ -2,7 +2,7 @@
 /**
  * Front-end form template.
  *
- * Override by copying this file to `wp-custom-meta-box/form.php` in your
+ * Override by copying this file to `metafields-custom-fields/form.php` in your
  * theme. The one variable in scope is $context:
  *
  * - `config`   array   The verified form configuration.
@@ -67,7 +67,7 @@ $wpcmb_time   = time();
 		?>
 		<div class="wpcmb-form__hp" aria-hidden="true">
 			<label for="<?php echo esc_attr( $context['form_id'] ); ?>-hp">
-				<?php esc_html_e( 'Leave this field empty', 'wp-custom-meta-box' ); ?>
+				<?php esc_html_e( 'Leave this field empty', 'metafields-custom-fields' ); ?>
 			</label>
 			<input
 				type="text"
@@ -83,8 +83,8 @@ $wpcmb_time   = time();
 			<div class="wpcmb-field wpcmb-field--text">
 				<div class="wpcmb-field__label">
 					<label for="<?php echo esc_attr( $context['form_id'] ); ?>-title">
-						<?php esc_html_e( 'Title', 'wp-custom-meta-box' ); ?>
-						<abbr class="wpcmb-required" title="<?php esc_attr_e( 'Required', 'wp-custom-meta-box' ); ?>">*</abbr>
+						<?php esc_html_e( 'Title', 'metafields-custom-fields' ); ?>
+						<abbr class="wpcmb-required" title="<?php esc_attr_e( 'Required', 'metafields-custom-fields' ); ?>">*</abbr>
 					</label>
 				</div>
 				<div class="wpcmb-field__control">
@@ -111,7 +111,7 @@ $wpcmb_time   = time();
 
 		<?php if ( ! $context['uploads'] ) : ?>
 			<p class="wpcmb-field__note">
-				<?php esc_html_e( 'File and image fields are read-only here because uploading is not permitted for your account.', 'wp-custom-meta-box' ); ?>
+				<?php esc_html_e( 'File and image fields are read-only here because uploading is not permitted for your account.', 'metafields-custom-fields' ); ?>
 			</p>
 		<?php endif; ?>
 
@@ -121,7 +121,7 @@ $wpcmb_time   = time();
 				echo esc_html(
 					'' !== (string) $wpcmb_config['submit_label']
 						? (string) $wpcmb_config['submit_label']
-						: __( 'Submit', 'wp-custom-meta-box' )
+						: __( 'Submit', 'metafields-custom-fields' )
 				);
 				?>
 			</button>

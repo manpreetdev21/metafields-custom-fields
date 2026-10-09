@@ -1,16 +1,16 @@
 <?php
 /**
- * Plugin Name:       WP Custom Meta Box
- * Plugin URI:        https://github.com/manpreetdev21/wp-custom-meta-box
+ * Plugin Name:       MetaFields - Custom Fields for WordPress
+ * Plugin URI:        https://github.com/manpreetdev21/metafields-custom-fields
  * Description:       Field groups, meta boxes and a developer-friendly field API for WordPress.
  * Version:           1.6.0
  * Requires at least: 6.8
  * Requires PHP:      8.1
  * Author:            Manpreet Singh
- * Author URI:        https://github.com/manpreetdev21/wp-custom-meta-box
+ * Author URI:        https://github.com/manpreetdev21/metafields-custom-fields
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       wp-custom-meta-box
+ * Text Domain:       metafields-custom-fields
  * Domain Path:       /languages
  *
  * @package WPCMB

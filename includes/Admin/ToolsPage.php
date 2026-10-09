@@ -55,8 +55,8 @@ final class ToolsPage extends Module {
 	public function register_page(): void {
 		add_submenu_page(
 			Menu::SLUG,
-			__( 'Tools', 'wp-custom-meta-box' ),
-			__( 'Tools', 'wp-custom-meta-box' ),
+			__( 'Tools', 'metafields-custom-fields' ),
+			__( 'Tools', 'metafields-custom-fields' ),
 			FieldGroupPostType::capability(),
 			self::SLUG,
 			array( $this, 'render' )
@@ -79,7 +79,7 @@ final class ToolsPage extends Module {
 		check_admin_referer( self::NONCE );
 
 		if ( ! current_user_can( FieldGroupPostType::capability() ) ) {
-			wp_die( esc_html__( 'You do not have permission to use these tools.', 'wp-custom-meta-box' ) );
+			wp_die( esc_html__( 'You do not have permission to use these tools.', 'metafields-custom-fields' ) );
 		}
 
 		match ( $action ) {
@@ -152,7 +152,7 @@ final class ToolsPage extends Module {
 					array(
 						'post_type'   => FieldGroupPostType::POST_TYPE,
 						'post_status' => 'draft',
-						'post_title'  => '' !== $config['title'] ? $config['title'] : __( 'Imported field group', 'wp-custom-meta-box' ),
+						'post_title'  => '' !== $config['title'] ? $config['title'] : __( 'Imported field group', 'metafields-custom-fields' ),
 					),
 					true
 				);
@@ -218,7 +218,7 @@ final class ToolsPage extends Module {
 	 */
 	public function render(): void {
 		if ( ! current_user_can( FieldGroupPostType::capability() ) ) {
-			wp_die( esc_html__( 'You do not have permission to view this page.', 'wp-custom-meta-box' ) );
+			wp_die( esc_html__( 'You do not have permission to view this page.', 'metafields-custom-fields' ) );
 		}
 
 		$groups = $this->container->get( Repository::class )->all( true );
@@ -226,18 +226,18 @@ final class ToolsPage extends Module {
 		$this->render_notice();
 		?>
 		<div class="wrap wpcmb-wrap">
-			<h1><?php esc_html_e( 'Tools', 'wp-custom-meta-box' ); ?></h1>
+			<h1><?php esc_html_e( 'Tools', 'metafields-custom-fields' ); ?></h1>
 
 			<div class="wpcmb-cards">
 				<div class="wpcmb-card">
-					<h2><?php esc_html_e( 'Export', 'wp-custom-meta-box' ); ?></h2>
-					<p><?php esc_html_e( 'Download the selected field groups as JSON, or copy them as PHP.', 'wp-custom-meta-box' ); ?></p>
+					<h2><?php esc_html_e( 'Export', 'metafields-custom-fields' ); ?></h2>
+					<p><?php esc_html_e( 'Download the selected field groups as JSON, or copy them as PHP.', 'metafields-custom-fields' ); ?></p>
 
 					<form method="post">
 						<?php wp_nonce_field( self::NONCE ); ?>
 
 						<?php if ( array() === $groups ) : ?>
-							<p><em><?php esc_html_e( 'No field groups yet.', 'wp-custom-meta-box' ); ?></em></p>
+							<p><em><?php esc_html_e( 'No field groups yet.', 'metafields-custom-fields' ); ?></em></p>
 						<?php else : ?>
 							<fieldset class="wpcmb-fieldset">
 								<?php foreach ( $groups as $group ) : ?>
@@ -250,7 +250,7 @@ final class ToolsPage extends Module {
 
 							<p>
 								<button type="submit" class="wpcmb-btn wpcmb-btn--primary" name="wpcmb_tool" value="export_json">
-									<?php esc_html_e( 'Download JSON', 'wp-custom-meta-box' ); ?>
+									<?php esc_html_e( 'Download JSON', 'metafields-custom-fields' ); ?>
 								</button>
 							</p>
 						<?php endif; ?>
@@ -258,15 +258,15 @@ final class ToolsPage extends Module {
 				</div>
 
 				<div class="wpcmb-card">
-					<h2><?php esc_html_e( 'Import', 'wp-custom-meta-box' ); ?></h2>
-					<p><?php esc_html_e( 'Upload a JSON export. Groups with a matching key are updated; new groups are created as drafts.', 'wp-custom-meta-box' ); ?></p>
+					<h2><?php esc_html_e( 'Import', 'metafields-custom-fields' ); ?></h2>
+					<p><?php esc_html_e( 'Upload a JSON export. Groups with a matching key are updated; new groups are created as drafts.', 'metafields-custom-fields' ); ?></p>
 
 					<form method="post" enctype="multipart/form-data">
 						<?php wp_nonce_field( self::NONCE ); ?>
 						<p><input type="file" name="wpcmb_import" accept="application/json,.json" required /></p>
 						<p>
 							<button type="submit" class="wpcmb-btn wpcmb-btn--primary" name="wpcmb_tool" value="import_json">
-								<?php esc_html_e( 'Import', 'wp-custom-meta-box' ); ?>
+								<?php esc_html_e( 'Import', 'metafields-custom-fields' ); ?>
 							</button>
 						</p>
 					</form>
@@ -274,8 +274,8 @@ final class ToolsPage extends Module {
 			</div>
 
 			<?php if ( array() !== $groups ) : ?>
-				<h2><?php esc_html_e( 'PHP export', 'wp-custom-meta-box' ); ?></h2>
-				<p class="description"><?php esc_html_e( 'Drop this into your theme or plugin to register these groups in code.', 'wp-custom-meta-box' ); ?></p>
+				<h2><?php esc_html_e( 'PHP export', 'metafields-custom-fields' ); ?></h2>
+				<p class="description"><?php esc_html_e( 'Drop this into your theme or plugin to register these groups in code.', 'metafields-custom-fields' ); ?></p>
 				<textarea class="widefat code wpcmb-php-export" rows="16" readonly><?php echo esc_textarea( $this->php_export( $groups ) ); ?></textarea>
 			<?php endif; ?>
 		</div>
@@ -315,10 +315,10 @@ final class ToolsPage extends Module {
 			'imported'         => array(
 				'success',
 				/* translators: %d: number of field groups imported. */
-				sprintf( _n( '%d field group imported.', '%d field groups imported.', $count, 'wp-custom-meta-box' ), $count ),
+				sprintf( _n( '%d field group imported.', '%d field groups imported.', $count, 'metafields-custom-fields' ), $count ),
 			),
-			'import_failed'    => array( 'error', __( 'That file could not be read as a field group export.', 'wp-custom-meta-box' ) ),
-			'nothing_selected' => array( 'warning', __( 'Select at least one field group to export.', 'wp-custom-meta-box' ) ),
+			'import_failed'    => array( 'error', __( 'That file could not be read as a field group export.', 'metafields-custom-fields' ) ),
+			'nothing_selected' => array( 'warning', __( 'Select at least one field group to export.', 'metafields-custom-fields' ) ),
 		);
 
 		if ( ! isset( $messages[ $result ] ) ) {

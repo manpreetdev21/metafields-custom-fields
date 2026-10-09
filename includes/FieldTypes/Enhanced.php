@@ -45,13 +45,13 @@ final class Enhanced extends FieldType {
 	 */
 	public function types(): array {
 		return array(
-			'icon'      => __( 'Icon Picker', 'wp-custom-meta-box' ),
-			'map'       => __( 'Map', 'wp-custom-meta-box' ),
-			'signature' => __( 'Signature', 'wp-custom-meta-box' ),
-			'qr'        => __( 'QR Code', 'wp-custom-meta-box' ),
-			'barcode'   => __( 'Barcode', 'wp-custom-meta-box' ),
-			'embed'     => __( 'Embed', 'wp-custom-meta-box' ),
-			'address'   => __( 'Address', 'wp-custom-meta-box' ),
+			'icon'      => __( 'Icon Picker', 'metafields-custom-fields' ),
+			'map'       => __( 'Map', 'metafields-custom-fields' ),
+			'signature' => __( 'Signature', 'metafields-custom-fields' ),
+			'qr'        => __( 'QR Code', 'metafields-custom-fields' ),
+			'barcode'   => __( 'Barcode', 'metafields-custom-fields' ),
+			'embed'     => __( 'Embed', 'metafields-custom-fields' ),
+			'address'   => __( 'Address', 'metafields-custom-fields' ),
 		);
 	}
 
@@ -59,7 +59,7 @@ final class Enhanced extends FieldType {
 	 * Editor group label.
 	 */
 	public function group_label(): string {
-		return __( 'Advanced', 'wp-custom-meta-box' );
+		return __( 'Advanced', 'metafields-custom-fields' );
 	}
 
 	/**
@@ -178,8 +178,8 @@ final class Enhanced extends FieldType {
 					<div class="wpcmb-icon__picker" id="%1$s-picker" hidden></div>
 				</div>',
 				esc_attr( $input_id ),
-				esc_html__( 'Choose icon', 'wp-custom-meta-box' ),
-				esc_html__( 'Clear', 'wp-custom-meta-box' ),
+				esc_html__( 'Choose icon', 'metafields-custom-fields' ),
+				esc_html__( 'Clear', 'metafields-custom-fields' ),
 				$this->icon_preview( $stored ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in icon_preview().
 				'' === $stored ? ' hidden' : ''
 			);
@@ -196,9 +196,9 @@ final class Enhanced extends FieldType {
 						<span class="wpcmb-signature__hint">%3$s</span>
 					</p>
 				</div>',
-				esc_attr__( 'Signature drawing area', 'wp-custom-meta-box' ),
-				esc_html__( 'Clear', 'wp-custom-meta-box' ),
-				esc_html__( 'Draw with a mouse, pen or finger.', 'wp-custom-meta-box' )
+				esc_attr__( 'Signature drawing area', 'metafields-custom-fields' ),
+				esc_html__( 'Clear', 'metafields-custom-fields' ),
+				esc_html__( 'Draw with a mouse, pen or finger.', 'metafields-custom-fields' )
 			);
 
 			return;
@@ -226,14 +226,14 @@ final class Enhanced extends FieldType {
 				</p>
 			</div>',
 			esc_attr( $input_id ),
-			esc_html__( 'Latitude', 'wp-custom-meta-box' ),
-			esc_html__( 'Longitude', 'wp-custom-meta-box' ),
-			esc_html__( 'Address', 'wp-custom-meta-box' ),
+			esc_html__( 'Latitude', 'metafields-custom-fields' ),
+			esc_html__( 'Longitude', 'metafields-custom-fields' ),
+			esc_html__( 'Address', 'metafields-custom-fields' ),
 			esc_attr( $parts[0] ?? '' ),
 			esc_attr( $parts[1] ?? '' ),
 			esc_attr( $parts[2] ?? '' ),
-			esc_html__( 'Use my location', 'wp-custom-meta-box' ),
-			esc_html__( 'Open in maps', 'wp-custom-meta-box' )
+			esc_html__( 'Use my location', 'metafields-custom-fields' ),
+			esc_html__( 'Open in maps', 'metafields-custom-fields' )
 		);
 	}
 
@@ -313,12 +313,12 @@ final class Enhanced extends FieldType {
 		$address = $this->normalise_address( $value );
 
 		$labels = array(
-			'line1'    => __( 'Address line 1', 'wp-custom-meta-box' ),
-			'line2'    => __( 'Address line 2', 'wp-custom-meta-box' ),
-			'city'     => __( 'City', 'wp-custom-meta-box' ),
-			'region'   => __( 'State / Region', 'wp-custom-meta-box' ),
-			'postcode' => __( 'Postcode', 'wp-custom-meta-box' ),
-			'country'  => __( 'Country', 'wp-custom-meta-box' ),
+			'line1'    => __( 'Address line 1', 'metafields-custom-fields' ),
+			'line2'    => __( 'Address line 2', 'metafields-custom-fields' ),
+			'city'     => __( 'City', 'metafields-custom-fields' ),
+			'region'   => __( 'State / Region', 'metafields-custom-fields' ),
+			'postcode' => __( 'Postcode', 'metafields-custom-fields' ),
+			'country'  => __( 'Country', 'metafields-custom-fields' ),
 		);
 
 		// The browser's own autofill hints, so a saved address fills in one
@@ -462,11 +462,11 @@ final class Enhanced extends FieldType {
 		if ( 'embed' === $type ) {
 			return array(
 				'return_format' => array(
-					'label'   => __( 'Return format', 'wp-custom-meta-box' ),
+					'label'   => __( 'Return format', 'metafields-custom-fields' ),
 					'type'    => 'select',
 					'choices' => array(
-						'html' => __( 'Embed HTML', 'wp-custom-meta-box' ),
-						'url'  => __( 'URL', 'wp-custom-meta-box' ),
+						'html' => __( 'Embed HTML', 'metafields-custom-fields' ),
+						'url'  => __( 'URL', 'metafields-custom-fields' ),
 					),
 				),
 			);
@@ -475,9 +475,9 @@ final class Enhanced extends FieldType {
 		if ( 'icon' === $type ) {
 			return array(
 				'icon_set' => array(
-					'label' => __( 'Icon set', 'wp-custom-meta-box' ),
+					'label' => __( 'Icon set', 'metafields-custom-fields' ),
 					'type'  => 'text',
-					'help'  => __( 'Passed to the enhancement script. Dashicons are used when empty.', 'wp-custom-meta-box' ),
+					'help'  => __( 'Passed to the enhancement script. Dashicons are used when empty.', 'metafields-custom-fields' ),
 				),
 			);
 		}

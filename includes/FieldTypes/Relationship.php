@@ -41,11 +41,11 @@ final class Relationship extends FieldType {
 	 */
 	public function types(): array {
 		return array(
-			'post_object'  => __( 'Post Object', 'wp-custom-meta-box' ),
-			'page_link'    => __( 'Page Link', 'wp-custom-meta-box' ),
-			'relationship' => __( 'Relationship', 'wp-custom-meta-box' ),
-			'taxonomy'     => __( 'Taxonomy', 'wp-custom-meta-box' ),
-			'user'         => __( 'User', 'wp-custom-meta-box' ),
+			'post_object'  => __( 'Post Object', 'metafields-custom-fields' ),
+			'page_link'    => __( 'Page Link', 'metafields-custom-fields' ),
+			'relationship' => __( 'Relationship', 'metafields-custom-fields' ),
+			'taxonomy'     => __( 'Taxonomy', 'metafields-custom-fields' ),
+			'user'         => __( 'User', 'metafields-custom-fields' ),
 		);
 	}
 
@@ -53,7 +53,7 @@ final class Relationship extends FieldType {
 	 * Editor group label.
 	 */
 	public function group_label(): string {
-		return __( 'Relational', 'wp-custom-meta-box' );
+		return __( 'Relational', 'metafields-custom-fields' );
 	}
 
 	/**
@@ -100,7 +100,7 @@ final class Relationship extends FieldType {
 		printf( '<select %s>', $attributes ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- attributes() escapes every name and value.
 
 		if ( ! $multiple ) {
-			printf( '<option value="">%s</option>', esc_html__( '— Select —', 'wp-custom-meta-box' ) );
+			printf( '<option value="">%s</option>', esc_html__( '— Select —', 'metafields-custom-fields' ) );
 		}
 
 		foreach ( $choices as $option => $label ) {
@@ -120,7 +120,7 @@ final class Relationship extends FieldType {
 				esc_html(
 					sprintf(
 						/* translators: %d: maximum number of options. */
-						__( 'Showing the first %d matches. Narrow this field\'s post type or taxonomy settings to see the rest.', 'wp-custom-meta-box' ),
+						__( 'Showing the first %d matches. Narrow this field\'s post type or taxonomy settings to see the rest.', 'metafields-custom-fields' ),
 						self::MAX_OPTIONS
 					)
 				)
@@ -191,39 +191,39 @@ final class Relationship extends FieldType {
 
 		if ( in_array( $type, array( 'post_object', 'page_link', 'relationship' ), true ) ) {
 			$schema['post_type'] = array(
-				'label' => __( 'Post types', 'wp-custom-meta-box' ),
+				'label' => __( 'Post types', 'metafields-custom-fields' ),
 				'type'  => 'text',
-				'help'  => __( 'Comma separated. Leave empty for all public post types.', 'wp-custom-meta-box' ),
+				'help'  => __( 'Comma separated. Leave empty for all public post types.', 'metafields-custom-fields' ),
 			);
 		}
 
 		if ( 'taxonomy' === $type ) {
 			$schema['taxonomy'] = array(
-				'label' => __( 'Taxonomy', 'wp-custom-meta-box' ),
+				'label' => __( 'Taxonomy', 'metafields-custom-fields' ),
 				'type'  => 'text',
 			);
 		}
 
 		if ( 'user' === $type ) {
 			$schema['role'] = array(
-				'label' => __( 'Roles', 'wp-custom-meta-box' ),
+				'label' => __( 'Roles', 'metafields-custom-fields' ),
 				'type'  => 'text',
-				'help'  => __( 'Comma separated. Leave empty for all roles.', 'wp-custom-meta-box' ),
+				'help'  => __( 'Comma separated. Leave empty for all roles.', 'metafields-custom-fields' ),
 			);
 		}
 
 		$schema['multiple'] = array(
-			'label' => __( 'Allow multiple', 'wp-custom-meta-box' ),
+			'label' => __( 'Allow multiple', 'metafields-custom-fields' ),
 			'type'  => 'toggle',
 		);
 
 		if ( 'page_link' !== $type ) {
 			$schema['return_format'] = array(
-				'label'   => __( 'Return format', 'wp-custom-meta-box' ),
+				'label'   => __( 'Return format', 'metafields-custom-fields' ),
 				'type'    => 'select',
 				'choices' => array(
-					'id'     => __( 'ID', 'wp-custom-meta-box' ),
-					'object' => __( 'Object', 'wp-custom-meta-box' ),
+					'id'     => __( 'ID', 'metafields-custom-fields' ),
+					'object' => __( 'Object', 'metafields-custom-fields' ),
 				),
 			);
 		}
@@ -334,7 +334,7 @@ final class Relationship extends FieldType {
 	 * @param \WP_Post $post Post.
 	 */
 	private function post_label( \WP_Post $post ): string {
-		$title = '' !== $post->post_title ? $post->post_title : __( '(no title)', 'wp-custom-meta-box' );
+		$title = '' !== $post->post_title ? $post->post_title : __( '(no title)', 'metafields-custom-fields' );
 
 		return sprintf( '%s — %s', $title, $post->post_type );
 	}

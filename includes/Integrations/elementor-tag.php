@@ -42,7 +42,7 @@ class ElementorTag extends \Elementor\Core\DynamicTags\Tag {
 	 * Tag title, as shown in the picker.
 	 */
 	public function get_title(): string {
-		return __( 'Custom Meta Box Field', 'wp-custom-meta-box' );
+		return __( 'Custom Meta Box Field', 'metafields-custom-fields' );
 	}
 
 	/**
@@ -78,7 +78,7 @@ class ElementorTag extends \Elementor\Core\DynamicTags\Tag {
 		$this->add_control(
 			'wpcmb_field',
 			array(
-				'label'   => __( 'Field', 'wp-custom-meta-box' ),
+				'label'   => __( 'Field', 'metafields-custom-fields' ),
 				'type'    => \Elementor\Controls_Manager::SELECT,
 				'groups'  => $this->field_groups(),
 				'default' => '',
@@ -145,7 +145,7 @@ class ElementorTag extends \Elementor\Core\DynamicTags\Tag {
 			}
 
 			$groups[] = array(
-				'label'   => '' !== $group->title ? $group->title : __( 'Fields', 'wp-custom-meta-box' ),
+				'label'   => '' !== $group->title ? $group->title : __( 'Fields', 'metafields-custom-fields' ),
 				'options' => $options,
 			);
 		}

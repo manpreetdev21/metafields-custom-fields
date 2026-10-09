@@ -34,11 +34,11 @@ final class Media extends FieldType {
 	 */
 	public function types(): array {
 		return array(
-			'file'    => __( 'File', 'wp-custom-meta-box' ),
-			'image'   => __( 'Image', 'wp-custom-meta-box' ),
-			'gallery' => __( 'Gallery', 'wp-custom-meta-box' ),
-			'video'   => __( 'Video', 'wp-custom-meta-box' ),
-			'audio'   => __( 'Audio', 'wp-custom-meta-box' ),
+			'file'    => __( 'File', 'metafields-custom-fields' ),
+			'image'   => __( 'Image', 'metafields-custom-fields' ),
+			'gallery' => __( 'Gallery', 'metafields-custom-fields' ),
+			'video'   => __( 'Video', 'metafields-custom-fields' ),
+			'audio'   => __( 'Audio', 'metafields-custom-fields' ),
 		);
 	}
 
@@ -46,7 +46,7 @@ final class Media extends FieldType {
 	 * Editor group label.
 	 */
 	public function group_label(): string {
-		return __( 'Media', 'wp-custom-meta-box' );
+		return __( 'Media', 'metafields-custom-fields' );
 	}
 
 	/**
@@ -108,8 +108,8 @@ final class Media extends FieldType {
 				<button type="button" class="wpcmb-btn wpcmb-btn--quiet wpcmb-btn--danger wpcmb-media__clear">%s</button>
 			</p>
 			</div>',
-			esc_html( $multiple ? __( 'Add media', 'wp-custom-meta-box' ) : __( 'Select media', 'wp-custom-meta-box' ) ),
-			esc_html( __( 'Clear', 'wp-custom-meta-box' ) )
+			esc_html( $multiple ? __( 'Add media', 'metafields-custom-fields' ) : __( 'Select media', 'metafields-custom-fields' ) ),
+			esc_html( __( 'Clear', 'metafields-custom-fields' ) )
 		);
 	}
 
@@ -128,7 +128,7 @@ final class Media extends FieldType {
 			esc_attr( (string) $id ),
 			wp_kses_post( $thumb ),
 			esc_html( '' !== $title ? $title : (string) $id ),
-			esc_attr__( 'Remove', 'wp-custom-meta-box' )
+			esc_attr__( 'Remove', 'metafields-custom-fields' )
 		);
 	}
 
@@ -216,24 +216,24 @@ final class Media extends FieldType {
 	public function settings_schema( string $type ): array {
 		$schema = array(
 			'return_format' => array(
-				'label'   => __( 'Return format', 'wp-custom-meta-box' ),
+				'label'   => __( 'Return format', 'metafields-custom-fields' ),
 				'type'    => 'select',
 				'choices' => array(
-					'id'     => __( 'Attachment ID', 'wp-custom-meta-box' ),
-					'url'    => __( 'URL', 'wp-custom-meta-box' ),
-					'array'  => __( 'Array', 'wp-custom-meta-box' ),
-					'object' => __( 'WP_Post object', 'wp-custom-meta-box' ),
+					'id'     => __( 'Attachment ID', 'metafields-custom-fields' ),
+					'url'    => __( 'URL', 'metafields-custom-fields' ),
+					'array'  => __( 'Array', 'metafields-custom-fields' ),
+					'object' => __( 'WP_Post object', 'metafields-custom-fields' ),
 				),
 			),
 		);
 
 		if ( 'gallery' === $type ) {
 			$schema['min'] = array(
-				'label' => __( 'Minimum items', 'wp-custom-meta-box' ),
+				'label' => __( 'Minimum items', 'metafields-custom-fields' ),
 				'type'  => 'number',
 			);
 			$schema['max'] = array(
-				'label' => __( 'Maximum items', 'wp-custom-meta-box' ),
+				'label' => __( 'Maximum items', 'metafields-custom-fields' ),
 				'type'  => 'number',
 			);
 		}

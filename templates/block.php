@@ -6,8 +6,8 @@
  * shows its content immediately rather than an empty region that looks broken.
  *
  * Override per block by copying this to your theme as
- * `wp-custom-meta-box/blocks/{block-name}.php`, or for every block as
- * `wp-custom-meta-box/block.php`. Or filter `wpcmb/block/template`.
+ * `metafields-custom-fields/blocks/{block-name}.php`, or for every block as
+ * `metafields-custom-fields/block.php`. Or filter `wpcmb/block/template`.
  *
  * $context holds:
  *
@@ -45,7 +45,7 @@ foreach ( $context['group']->fields as $wpcmb_field ) {
 				echo esc_html(
 					sprintf(
 						/* translators: %s: block title. */
-						__( '%s — switch to Edit to fill this in.', 'wp-custom-meta-box' ),
+						__( '%s — switch to Edit to fill this in.', 'metafields-custom-fields' ),
 						$context['group']->title
 					)
 				);
