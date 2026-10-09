@@ -1,10 +1,10 @@
-=== MetaFields - Custom Fields for WordPress ===
+=== MetaFields - Custom Fields and Meta Boxes ===
 Contributors: manpreetdev21
 Tags: custom fields, meta box, repeater, options page, custom post type
 Requires at least: 6.8
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.7.0
+Stable tag: 1.8.0
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -87,6 +87,11 @@ Yes. Every string is translatable under the `metafields-custom-fields` text doma
 5. The field group list, with each group's key, field count and location.
 
 == Changelog ==
+
+= 1.8.0 =
+* Renamed to MetaFields - Custom Fields and Meta Boxes. The Plugin Directory does not allow "WordPress" in a plugin name, in any position. The slug, the text domain and every stored value are unchanged.
+* Removed the `Domain Path` header and the `load_plugin_textdomain()` call. Translations come from the directory's language packs, or from a .mo dropped in `wp-content/languages/plugins/`.
+* The submission checks now cover restricted name terms and translation headers that describe nothing shipped.
 
 = 1.7.0 =
 * Renamed to MetaFields - Custom Fields for WordPress, under the slug `metafields-custom-fields`.

@@ -1,9 +1,9 @@
 <?php
 /**
- * Plugin Name:       MetaFields - Custom Fields for WordPress
+ * Plugin Name:       MetaFields - Custom Fields and Meta Boxes
  * Plugin URI:        https://github.com/manpreetdev21/metafields-custom-fields
  * Description:       Field groups, meta boxes and a developer-friendly field API for WordPress.
- * Version:           1.7.0
+ * Version:           1.8.0
  * Requires at least: 6.8
  * Requires PHP:      8.1
  * Author:            Manpreet Singh
@@ -11,7 +11,6 @@
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       metafields-custom-fields
- * Domain Path:       /languages
  *
  * @package WPCMB
  */
@@ -20,7 +19,7 @@ declare( strict_types=1 );
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'WPCMB_VERSION', '1.7.0' );
+define( 'WPCMB_VERSION', '1.8.0' );
 define( 'WPCMB_FILE', __FILE__ );
 define( 'WPCMB_DIR', plugin_dir_path( __FILE__ ) );
 define( 'WPCMB_URL', plugin_dir_url( __FILE__ ) );

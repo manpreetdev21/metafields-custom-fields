@@ -1,8 +1,8 @@
-# WP Custom Meta Box
+# MetaFields - Custom Fields and Meta Boxes
 
 Field groups, meta boxes and a developer-friendly field API for WordPress.
 
-- **Version:** 1.7.0
+- **Version:** 1.8.0
 - **Author:** Manpreet Singh
 - **Requires PHP:** 8.1
 - **Requires WordPress:** 6.8
@@ -956,6 +956,8 @@ the build is the last moment anybody looks.
 |---|---|
 | Every header field the directory reads is filled in | ✅ |
 | The slug, the text domain and every translated string agree | ✅ |
+| The plugin name avoids the terms the directory restricts | ✅ |
+| The translation headers and calls describe what ships | ✅ |
 | `readme.txt` carries what the directory parses | ✅ |
 | The version is the same in the header, the constant and the readme | ✅ |
 | The licence is GPL, declared and shipped in full | ✅ |
@@ -969,8 +971,8 @@ the slug means the directory's language packs silently never load, which is
 the kind of thing that is noticed a year later by somebody else.
 
 **What ships** is an allow list, not a deny list: the main file,
-`uninstall.php`, `readme.txt`, `LICENSE`, and the `includes`, `templates`,
-`assets` and `languages` directories. A deny list ships whatever is added to
+`uninstall.php`, `readme.txt`, `LICENSE`, and the `includes`, `templates`
+and `assets` directories. A deny list ships whatever is added to
 the checkout next, and the thing shipped by accident is always the thing
 nobody meant to publish. The zip's one top-level folder is named after the
 slug, whatever the checkout is called.

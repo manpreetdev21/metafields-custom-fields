@@ -83,7 +83,6 @@ final class Plugin {
 	 */
 	public function init(): void {
 		add_action( 'plugins_loaded', array( $this, 'boot' ), 5 );
-		add_action( 'init', array( $this, 'load_textdomain' ) );
 	}
 
 	/**
@@ -135,15 +134,19 @@ final class Plugin {
 		do_action( 'wpcmb/booted', $this );
 	}
 
-	/**
-	 * Load translations.
+	/*
+	 * There is no textdomain call here on purpose.
 	 *
-	 * Hooked to `init` rather than `plugins_loaded` to avoid WordPress 6.7+
-	 * just-in-time textdomain notices.
+	 * `load_plugin_textdomain` has been discouraged since WordPress 4.6:
+	 * a plugin hosted on the directory has its translations loaded for it,
+	 * just in time, from the language packs the directory builds. Calling it
+	 * adds a hook, a file lookup and a 6.7+ notice to do what core already
+	 * does — and the `Domain Path` folder it pointed at held nothing, because
+	 * translations are not shipped with the plugin.
+	 *
+	 * A site translating this plugin by hand drops its .mo into
+	 * wp-content/languages/plugins/, which core reads without being asked.
 	 */
-	public function load_textdomain(): void {
-		load_plugin_textdomain( 'metafields-custom-fields', false, dirname( WPCMB_BASENAME ) . '/languages' );
-	}
 
 	/**
 	 * Service container accessor.

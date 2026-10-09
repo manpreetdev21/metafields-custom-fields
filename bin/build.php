@@ -29,7 +29,11 @@ $wpcmb_root = dirname( __DIR__ );
  * @param int $bytes Byte count.
  */
 function wpcmb_size( int $bytes ): string {
-	foreach ( array( 'GB' => 1073741824, 'MB' => 1048576, 'KB' => 1024 ) as $unit => $size ) {
+	foreach ( array(
+		'GB' => 1073741824,
+		'MB' => 1048576,
+		'KB' => 1024,
+	) as $unit => $size ) {
 		if ( $bytes >= $size ) {
 			return round( $bytes / $size, 1 ) . ' ' . $unit;
 		}
@@ -95,7 +99,6 @@ $wpcmb_include = array(
 	'includes',
 	'templates',
 	'assets',
-	'languages',
 );
 
 /**

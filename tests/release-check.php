@@ -86,6 +86,14 @@ $wpcmb_read = wpcmb_file( 'readme.txt' );
 
 printf( "Packaging MetaFields as \"%s\"\n\n", $wpcmb_slug );
 
+/* What the package contains, which four rules below read. */
+$wpcmb_shipped_php = array_merge(
+	(array) glob( $wpcmb_root . '/*.php' ),
+	(array) glob( $wpcmb_root . '/{includes,templates}/{,*/,*/*/}*.php', GLOB_BRACE )
+);
+
+$wpcmb_shipped = array_merge( $wpcmb_shipped_php, (array) glob( $wpcmb_root . '/assets/js/*.js' ) );
+
 echo "The plugin header\n";
 
 /*
@@ -107,7 +115,6 @@ $wpcmb_headers = array(
 	'License',
 	'License URI',
 	'Text Domain',
-	'Domain Path',
 );
 
 $wpcmb_missing = array();
@@ -160,6 +167,72 @@ wpcmb_rule(
 	'the slug, the text domain and every translated string agree',
 	array_values( array_unique( array_merge( $wpcmb_domain, $wpcmb_strings ) ) )
 );
+
+/*
+ * Rule 3: the name avoids the terms the directory restricts.
+ *
+ * "WordPress" cannot appear in a plugin name at all — not as a suffix,
+ * not in the middle, however true it is. The others here are trademarks
+ * the directory allows only as a trailing "for X", which is a judgement
+ * call, so they are reported and left to a person. The directory's own
+ * list is longer than this; these are the ones that get written by
+ * accident.
+ */
+$wpcmb_restricted = array( 'wordpress', 'woocommerce', 'gutenberg', 'jetpack', 'elementor', 'facebook', 'instagram', 'google', 'youtube', 'paypal', 'stripe' );
+
+$wpcmb_name  = array();
+$wpcmb_title = '';
+
+if ( 1 === preg_match( '/^\s*\*\s*Plugin Name:\s*(.+)$/m', $wpcmb_main, $wpcmb_declared_name ) ) {
+	$wpcmb_title = trim( $wpcmb_declared_name[1] );
+}
+
+if ( '' === $wpcmb_title ) {
+	$wpcmb_name[] = 'the header declares no plugin name';
+}
+
+foreach ( $wpcmb_restricted as $wpcmb_term ) {
+	if ( str_contains( strtolower( $wpcmb_title ), $wpcmb_term ) ) {
+		$wpcmb_name[] = sprintf( 'the plugin name contains the restricted term "%s"', $wpcmb_term );
+	}
+}
+
+// The readme title is the name the directory shows, so it drifts too.
+if ( 1 === preg_match( '/^=== (.+) ===/m', $wpcmb_read, $wpcmb_read_title ) ) {
+	foreach ( $wpcmb_restricted as $wpcmb_term ) {
+		if ( str_contains( strtolower( $wpcmb_read_title[1] ), $wpcmb_term ) ) {
+			$wpcmb_name[] = sprintf( 'the readme.txt title contains the restricted term "%s"', $wpcmb_term );
+		}
+	}
+}
+
+wpcmb_rule( 'the plugin name avoids the terms the directory restricts', array_values( array_unique( $wpcmb_name ) ) );
+
+/*
+ * Rule 4: the translation headers and calls describe what actually ships.
+ *
+ * A directory-hosted plugin has its translations loaded for it, from the
+ * language packs the directory builds. Calling `load_plugin_textdomain()`
+ * does that work again by hand, and a `Domain Path` naming a folder that
+ * is not in the package points installs at nothing.
+ */
+$wpcmb_i18n = array();
+
+if ( 1 === preg_match( '/^\s*\*\s*Domain Path:\s*(\S+)/m', $wpcmb_main, $wpcmb_domain_path ) ) {
+	$wpcmb_folder = $wpcmb_root . '/' . ltrim( $wpcmb_domain_path[1], '/' );
+
+	if ( ! is_dir( $wpcmb_folder ) || array() === (array) glob( $wpcmb_folder . '/*' ) ) {
+		$wpcmb_i18n[] = sprintf( 'Domain Path is %s, which ships nothing', $wpcmb_domain_path[1] );
+	}
+}
+
+foreach ( $wpcmb_shipped_php as $wpcmb_path ) {
+	if ( str_contains( (string) file_get_contents( (string) $wpcmb_path ), 'load_plugin_textdomain(' ) ) {
+		$wpcmb_i18n[] = sprintf( '%s calls load_plugin_textdomain()', basename( (string) $wpcmb_path ) );
+	}
+}
+
+wpcmb_rule( 'the translation headers and calls describe what ships', $wpcmb_i18n );
 
 echo "\nreadme.txt\n";
 
@@ -274,11 +347,6 @@ $wpcmb_banned  = array(
 
 $wpcmb_forbidden = array();
 
-$wpcmb_shipped = array_merge(
-	(array) glob( $wpcmb_root . '/*.php' ),
-	(array) glob( $wpcmb_root . '/{includes,templates}/{,*/,*/*/}*.php', GLOB_BRACE ),
-	(array) glob( $wpcmb_root . '/assets/js/*.js' )
-);
 
 foreach ( $wpcmb_shipped as $wpcmb_path ) {
 	$wpcmb_source = (string) file_get_contents( (string) $wpcmb_path );
