@@ -2,7 +2,6 @@
 /node_modules/
 
 # Build/tooling output
-/build/
 /tests/coverage/
 .phpunit.result.cache
 .phpcs-cache

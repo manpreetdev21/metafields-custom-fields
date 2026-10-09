@@ -2,7 +2,7 @@
 
 Field groups, meta boxes and a developer-friendly field API for WordPress.
 
-- **Version:** 1.6.0
+- **Version:** 1.7.0
 - **Author:** Manpreet Singh
 - **Requires PHP:** 8.1
 - **Requires WordPress:** 6.8
@@ -946,7 +946,7 @@ None of these need WordPress.
 
 ```bash
 php tests/release-check.php     # what the Plugin Directory asks of a submission
-php bin/build.php               # the uploadable zip, in build/
+php bin/build.php               # the uploadable zip, in the plugin root
 ```
 
 The build refuses to package anything the submission checks reject, because

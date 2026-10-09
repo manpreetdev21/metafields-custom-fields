@@ -4,7 +4,7 @@ Tags: custom fields, meta box, repeater, options page, custom post type
 Requires at least: 6.8
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.6.0
+Stable tag: 1.7.0
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -87,6 +87,12 @@ Yes. Every string is translatable under the `metafields-custom-fields` text doma
 5. The field group list, with each group's key, field count and location.
 
 == Changelog ==
+
+= 1.7.0 =
+* Renamed to MetaFields - Custom Fields for WordPress, under the slug `metafields-custom-fields`.
+* The text domain is now `metafields-custom-fields`. Translations against the old domain will need regenerating; stored field groups, values and settings are untouched.
+* Added readme.txt and the full GPLv2 licence text.
+* Added the Plugin Directory submission checks, and a build that refuses to package anything they reject.
 
 = 1.6.0 =
 * Required fields now stop a publish from Quick Edit and Bulk Edit, not only from the editors.

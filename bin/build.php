@@ -8,7 +8,7 @@
  * verified first, because a zip built from a package that fails those checks
  * is a zip nobody should upload.
  *
- * Run with `php bin/build.php`. The zip lands in `build/`.
+ * Run with `php bin/build.php`. The zip lands in the plugin root.
  *
  * @package WPCMB
  */
@@ -154,14 +154,14 @@ if ( array() === $wpcmb_files ) {
 	exit( 1 );
 }
 
-$wpcmb_build = $wpcmb_root . '/build';
-
-if ( ! is_dir( $wpcmb_build ) && ! mkdir( $wpcmb_build, 0755, true ) ) {
-	fwrite( STDERR, "Could not create build/.\n" );
-	exit( 1 );
-}
-
-$wpcmb_zip_path = sprintf( '%s/%s.%s.zip', $wpcmb_build, $wpcmb_slug, $wpcmb_version );
+/*
+ * The package sits in the plugin root, beside the file it is built from.
+ *
+ * It is never packaged into itself: what ships is an allow list, and a zip
+ * in the root is not on it. Any older zip of the same version is replaced
+ * rather than left to be uploaded by mistake.
+ */
+$wpcmb_zip_path = sprintf( '%s/%s.%s.zip', $wpcmb_root, $wpcmb_slug, $wpcmb_version );
 
 if ( file_exists( $wpcmb_zip_path ) && ! unlink( $wpcmb_zip_path ) ) {
 	fwrite( STDERR, "Could not replace the existing zip.\n" );
@@ -188,4 +188,4 @@ foreach ( $wpcmb_files as $wpcmb_file ) {
 $wpcmb_archive->close();
 
 printf( "\n%d files, %s uncompressed\n", count( $wpcmb_files ), wpcmb_size( $wpcmb_bytes ) );
-printf( "zip: %s (%s)\n", str_replace( $wpcmb_root . '/', '', $wpcmb_zip_path ), wpcmb_size( (int) filesize( $wpcmb_zip_path ) ) );
+printf( "zip: %s (%s)\n", basename( $wpcmb_zip_path ), wpcmb_size( (int) filesize( $wpcmb_zip_path ) ) );
